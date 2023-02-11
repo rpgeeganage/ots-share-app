@@ -1,0 +1,23 @@
+{
+  "name": "@ots-share/main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf build && tsc",
+    "test": "exit 0",
+    "start": "node ./build/src/index.js",
+    "lint": "eslint --ext ts ./",
+    "fix:lint": "npm run lint -- --fix",
+    "lint-stage-ts": "eslint --cache --fix",
+    "lint-stage-others": "prettier --write"
+  },
+  "dependencies": {
+    "express": "4.18.2",
+    "zod": "3.20.2",
+    "@ots-share/api": "1.0.0",
+    "@ots-share/ui": "1.0.0",
+    "@ots-share/purge": "1.0.0"
+  }
+}

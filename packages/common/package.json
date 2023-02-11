@@ -1,0 +1,15 @@
+{
+  "name": "@ots-share/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf build && tsc",
+    "test": "exit 0",
+    "lint": "eslint --ext ts ./",
+    "fix:lint": "npm run lint -- --fix",
+    "lint-stage-ts": "eslint --cache --fix",
+    "lint-stage-others": "prettier --write"
+  }
+}

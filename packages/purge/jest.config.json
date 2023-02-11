@@ -1,0 +1,24 @@
+{
+  "moduleFileExtensions": ["ts", "js"],
+  "transform": {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        "isolatedModules": true,
+        "tsconfig": "./tsconfig.json"
+      }
+    ]
+  },
+  "modulePathIgnorePatterns": ["<rootDir>/build/"],
+  "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/build/"],
+  "testRegex": ".*\\.spec\\.ts$",
+  "testEnvironment": "node",
+  "roots": ["<rootDir>/tests"],
+  "collectCoverage": true,
+  "coverageReporters": ["lcov", "json", "text", "html"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "<rootDir>/tests"],
+  "reporters": ["default"],
+  "moduleNameMapper": {
+    "^src/(.*)$": "<rootDir>/src/$1"
+  }
+}

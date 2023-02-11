@@ -1,0 +1,31 @@
+{
+  "name": "@ots-share/api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf build && tsc",
+    "test": "jest",
+    "start": "node ./build/src/index.ts",
+    "lint": "eslint --ext ts ./",
+    "fix:lint": "npm run lint -- --fix",
+    "lint-stage-ts": "eslint --cache --fix",
+    "lint-stage-others": "prettier --write"
+  },
+  "dependencies": {
+    "axios": "1.2.3",
+    "express": "4.18.2",
+    "body-parser": "1.20.1",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.0",
+    "zod": "3.20.2",
+    "short-uuid": "4.2.2",
+    "mongoose": "6.9.0",
+    "@ots-share/common": "1.0.0",
+    "reflect-metadata": "0.1.13",
+    "express-winston": "4.2.0",
+    "winston": "3.8.2",
+    "moment": "2.29.4"
+  }
+}

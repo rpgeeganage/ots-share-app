@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "./build"
+  },
+  "references": [
+    {
+      "path": "../api"
+    },
+    {
+      "path": "../common"
+    },
+    {
+      "path": "../ui/server"
+    },
+    {
+      "path": "../purge"
+    }
+  ],
+  "include": ["./src/**/*", "./tests/**/*.ts"]
+}

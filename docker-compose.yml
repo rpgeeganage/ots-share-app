@@ -1,0 +1,36 @@
+version: '3.5'
+services:
+  mongo-local:
+    image: mongo:4.2
+    container_name: mongo-local
+    ports:
+      - '27017:27017'
+
+  ots-share-build:
+    build:
+      context: .
+    container_name: ots-share-build
+    volumes:
+      - .:/app
+    logging:
+      driver: json-file
+
+  ots-share-run:
+    build:
+      context: .
+    container_name: ots-share-run
+    environment:
+      - DEV_PORT=${DEV_PORT:-9898}
+      - MONGO_URL=mongodb://mongo-local/ots-share
+    command: tail -f /dev/null
+    ports:
+      - '${SERVER_PORT:-8282}:80'
+      - '${DEV_PORT:-9898}:${DEV_PORT:-9898}'
+    volumes:
+      - .:/app
+    logging:
+      driver: json-file
+    depends_on:
+      - mongo-local
+    links:
+      - mongo-local

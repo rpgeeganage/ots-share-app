@@ -1,0 +1,19 @@
+{
+  "name": "@ots-share/purge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf build && tsc",
+    "test": "jest",
+    "start": "node ./build/src/index.ts",
+    "lint": "eslint --ext ts ./",
+    "fix:lint": "npm run lint -- --fix",
+    "lint-stage-ts": "eslint --cache --fix",
+    "lint-stage-others": "prettier --write"
+  },
+  "dependencies": {
+    "mongodb": "5.0.1"
+  }
+}
