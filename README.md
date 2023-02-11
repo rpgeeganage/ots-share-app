@@ -82,3 +82,8 @@ The format is as follows.
 The format is as follows.
 
 - `<hosted-domain>/r/Base58Encoded(id-from-api : password)`
+
+## Todos
+- Add tests. (Current tests are just fake once) :facepalm:.
+- Learn more ReactJs. :smile:
+- Fix any bugs. :smile:
