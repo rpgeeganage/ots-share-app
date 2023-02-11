@@ -2,6 +2,19 @@
 
 A self-hosting app to share secrets only one-time.
 
+### Content
+* [ ***Features*** ](#features)
+* [ ***How to execute*** ](#how-to-execute)
+* [ ***How to use*** ](#how-to-use)
+  - [ **Create shareable secret** ](#create-shareable-secret)
+  - [ **View secret content in the shared link** ](#view-secret-content-in-the-shared-link)
+  - [ **Errors** ](#errors)
+* [ **Change configurations** ](#change-configurations)
+  - [ **Change Mongo server** ](#change-mongo-server)
+  - [ **Change the default server port** ](#change-the-default-server-port)
+* [ **Tech stack** ](#tech-stack)
+* [ **Format of the generated URL** ](#format-of-the-generated-url)
+* [ **Todo** ](#todo)
 ## Features
 
 - Creates shareable links which valid for a maximum of **24 hours**.
@@ -10,7 +23,7 @@ A self-hosting app to share secrets only one-time.
 - Passwords are **NOT** sent to the backend server.
 - The app periodically deletes encrypted content after it expires, and the encrypted content gets deleted once the web UI fetches it.
 
-## Execution
+## How to execute
 
 This application is entirely run in Docker and comes with `Mongo 4.2` image. (view the `docker-compose.yml` for further reference.)
 
@@ -52,7 +65,7 @@ After that, the application is accessible via [http://localhost:8282](http://loc
 6. You will see the content as follows.
 ![Screenshot (5)](https://user-images.githubusercontent.com/10336353/218278542-0979fda7-afa0-4425-99c2-a283bcc3e3d1.png)
 
-#### Errors.
+### Errors.
 
 In case of an error, the following screen will appear.![Screenshot (6)](https://user-images.githubusercontent.com/10336353/218278571-9af87297-0e2c-44dd-b172-c5ddbe28a7f3.png)
 
@@ -71,7 +84,7 @@ In case of an error, the following screen will appear.![Screenshot (6)](https://
 
 - Please change `SERVER_PORT` variable in the in `docker-compose.yml` under `ots-share-run` service.
 
-## Tech Stack
+## Tech stack
 
 **UI:** React, Material UI
 
@@ -79,7 +92,7 @@ In case of an error, the following screen will appear.![Screenshot (6)](https://
 
 **DB:** MongoDB
 
-## Format of the URL
+## Format of the generated URL
 
 The URL format, which required sending to the other party, is as follows. The `id` received from the backend API gets concatenated with the password. After that, the contaminated string gets encoded into `Base 58`.
 The format is as follows.
@@ -88,7 +101,7 @@ The format is as follows.
 
 - `<hosted-domain>/r/Base58Encoded(id-from-api : password)`
 
-## Todos
+## Todo
 - Add tests. (Current tests are just fake once) :facepalm:.
 - Learn more ReactJs. :smile:
 - Fix any bugs. :smile:
