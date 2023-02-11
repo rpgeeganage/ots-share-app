@@ -3,9 +3,9 @@
 A self-hosting app to share secrets only one-time.
 
 ### Content
-* [ ***Features*** ](#features)
-* [ ***How to execute*** ](#how-to-execute)
-* [ ***How to use*** ](#how-to-use)
+* [ **Features** ](#features)
+* [ **How to execute** ](#how-to-execute)
+* [ **How to use** ](#how-to-use)
   - [ **Create shareable secret** ](#create-shareable-secret)
   - [ **View secret content in the shared link** ](#view-secret-content-in-the-shared-link)
   - [ **Errors** ](#errors)
