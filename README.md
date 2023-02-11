@@ -24,7 +24,7 @@ After that, the application is accessible via [http://localhost:8282](http://loc
 
 ## How to use
 
-# (Please don't lose the URL. There is no way to retrieve the content or regenerate the URL !!!)
+# (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
 
 ### Create shareable secret
 
@@ -35,7 +35,7 @@ After that, the application is accessible via [http://localhost:8282](http://loc
 2. Click the `Create` Button.
 3. Copy the `URL` in the text box. (Click the `Copy Icon`).
    ![Screenshot (2)](https://user-images.githubusercontent.com/10336353/218278298-2ded1d50-82e0-4cbf-978f-79f9d637876f.png)
-
+* (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
 4. Send the copied URL to the other party via a secure channel.
 
 ### View secret content in the shared link.
@@ -44,7 +44,8 @@ After that, the application is accessible via [http://localhost:8282](http://loc
 2. You will see the following screen.
 
 ![Screenshot (3)](https://user-images.githubusercontent.com/10336353/218278430-8dfc4b41-1f75-4a67-a3e0-a2966b3d57fa.png) 3. Click `Fetch Content`. 4. You'll see the following screen.
-![Screenshot (4)](https://user-images.githubusercontent.com/10336353/218278478-15c40978-116b-4f73-868b-8deaf4eb1b86.png) 5. Click the `Click there to view the content`. 6. You will see the content as follows.
+![Screenshot (4)](https://user-images.githubusercontent.com/10336353/218278478-15c40978-116b-4f73-868b-8deaf4eb1b86.png) 
+5. Click the `Click there to view the content`. 6. You will see the content as follows.
 ![Screenshot (5)](https://user-images.githubusercontent.com/10336353/218278542-0979fda7-afa0-4425-99c2-a283bcc3e3d1.png)
 
 #### Errors.
