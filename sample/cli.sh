@@ -2,7 +2,7 @@
 
 # Configs
 PASSWORD="pass-key"
-OTS_SHARE_DOMIN="http://host.docker.internal:8282"
+OTS_SHARE_DOMIN="http://localhost:8282"
 
 OTS_SHARE_API="$OTS_SHARE_DOMIN/api/record"
 
@@ -14,10 +14,6 @@ text_to_encrypt="test string to encrypt"
 ################
 ## Encryption ##
 ################
-echo "================================"
-echo "Encryption:"
-echo "********************************"
-
 # Record expiration value. A numerical value
 RECORD_EXPIRATION_VALUE=10
 # Record expiration unit. It can be "minutes" or "hours"
@@ -45,15 +41,10 @@ echo "Record id: $record_id"
 echo "Password: $PASSWORD"
 echo "-----------------------------------"
 echo "(This record will expires in: $RECORD_EXPIRATION_VALUE $RECORD_EXPIRATION_UNIT)" 
-printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
 
 ################
 ## DECRYPTION ##
 ################
-echo "================================"
-echo "Decryption:"
-echo "********************************"
-
 # 1. Fetch content
 content=$(\
 curl "$OTS_SHARE_API/$record_id" \
@@ -69,4 +60,3 @@ decrypted_content=$(echo $content | openssl enc -d $OPENSSL_PARAMETERS_ALGORITHM
 echo "-----------------------------------"
 echo "Content: $decrypted_content"
 echo "-----------------------------------"
-printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
