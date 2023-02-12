@@ -10,11 +10,11 @@ A self-hosting app to share secrets only one-time.
   - [ **Create shareable secret** ](#create-shareable-secret)
   - [ **View secret content in the shared link** ](#view-secret-content-in-the-shared-link)
   - [ **Errors** ](#errors)
+- [ **CLI usage**](#cli-usage)
 - [ **Change configurations** ](#change-configurations)
   - [ **Change Mongo server** ](#change-mongo-server)
   - [ **Change the default server port** ](#change-the-default-server-port)
   - [ **Change the purge process interval** ](#change-the-purge-process-interval)
-- [ **CLI usage**](#cli-usage)
 - [ **Tech stack** ](#tech-stack)
 - [ **Format of the generated URL** ](#format-of-the-generated-url)
 - [ **Todo** ](#todo)
@@ -26,6 +26,7 @@ A self-hosting app to share secrets only one-time.
   (Using [Crypto-js](https://cryptojs.gitbook.io/docs/#the-cipher-algorithms))
 - Passwords are **NOT** sent to the backend server.
 - The app periodically deletes encrypted content after it expires, and the encrypted content gets deleted once the web UI fetches it.
+- CLI support
 
 ## How to execute
 
@@ -74,27 +75,6 @@ After that, the application is accessible via [http://localhost:8282](http://loc
 ### Errors.
 
 In case of an error, the following screen will appear.![Screenshot (6)](https://user-images.githubusercontent.com/10336353/218278571-9af87297-0e2c-44dd-b172-c5ddbe28a7f3.png)
-
-## Change configurations
-
-### All the configurations are mentioned in the `docker-compose.yml` under `ots-share-run` service.
-
-- Change default port to access the application are available in `docker-compose.yml` under `ots-share-run` service.
-- You can modify the `mongo-local` service in `docker-compose.yml` to keep the data persistent.
-
-#### Change Mongo server.
-
-- Please change the `MONGO_URL` variable the `docker-compose.yml` under `ots-share-run` service.
-
-#### Change the default server port.
-
-- Please change `SERVER_PORT` variable in the in `docker-compose.yml` under `ots-share-run` service.
-
-#### Change the purge process interval.
-
-- Default value is 1 minute.
-- Please set `PURGE_TRIGGER_INTERVAL` variable in the in `docker-compose.yml` under `ots-share-run` service.
-- The `PURGE_TRIGGER_INTERVAL` value must be in `milliseconds`.
 
 ## CLI usage
 
@@ -168,8 +148,6 @@ Password: pass-key
 
 </details>
 
-<br/>
-
 - Decryption using CLI
 
 <details>
@@ -226,6 +204,27 @@ Content: test string to encrypt
 </details>
 
 ###
+
+## Change configurations
+
+### All the configurations are mentioned in the `docker-compose.yml` under `ots-share-run` service.
+
+- Change default port to access the application are available in `docker-compose.yml` under `ots-share-run` service.
+- You can modify the `mongo-local` service in `docker-compose.yml` to keep the data persistent.
+
+#### Change Mongo server.
+
+- Please change the `MONGO_URL` variable the `docker-compose.yml` under `ots-share-run` service.
+
+#### Change the default server port.
+
+- Please change `SERVER_PORT` variable in the in `docker-compose.yml` under `ots-share-run` service.
+
+#### Change the purge process interval.
+
+- Default value is 1 minute.
+- Please set `PURGE_TRIGGER_INTERVAL` variable in the in `docker-compose.yml` under `ots-share-run` service.
+- The `PURGE_TRIGGER_INTERVAL` value must be in `milliseconds`.
 
 ## Tech stack
 
