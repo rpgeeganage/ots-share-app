@@ -135,8 +135,6 @@ echo "(This record will expires in: $RECORD_EXPIRATION_VALUE $RECORD_EXPIRATION_
 <details>
   <summary>Output encryption</summary>
 
-#### Output
-
 ```sh
 !!! Keep these safe !!!
 -----------------------------------
@@ -191,9 +189,7 @@ echo "-----------------------------------"
 </details>
 
 <details>
-  <summary>Output encryption</summary>
-
-#### Output
+  <summary>Output decryption</summary>
 
 ```sh
 -----------------------------------
