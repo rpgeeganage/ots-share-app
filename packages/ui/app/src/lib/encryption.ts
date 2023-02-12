@@ -10,7 +10,10 @@ export function encrypt(content: string, password: string) {
 
 export function decrypt(content: string, password: string) {
   try {
-    const decyper = AES.decrypt(content, password);
+    const decyper = AES.decrypt(content, password, {
+      mode: mode.CBC,
+      padding: pad.AnsiX923,
+    });
 
     return decyper.toString(enc.Utf8);
   } catch {
