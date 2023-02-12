@@ -26,6 +26,10 @@
     "reflect-metadata": "0.1.13",
     "express-winston": "4.2.0",
     "winston": "3.8.2",
-    "moment": "2.29.4"
+    "moment": "2.29.4",
+    "cors": "2.8.5"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.13"
   }
 }
