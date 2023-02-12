@@ -1,3 +1,4 @@
+import { getLogger } from '../logger';
 import { getRecordRepository, IRecordRepository } from '../repositories/record';
 
 export class RecordService {
@@ -5,7 +6,7 @@ export class RecordService {
 
   async delete(): Promise<void> {
     const deletedCount = await this.repository.deleteOlderThan(new Date());
-    console.log(`Deleted records: ${deletedCount}`);
+    getLogger().info(`Deleted records: ${deletedCount}`);
   }
 }
 

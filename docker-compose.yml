@@ -22,6 +22,7 @@ services:
     environment:
       - DEV_PORT=${DEV_PORT:-9898}
       - MONGO_URL=mongodb://mongo-local/ots-share
+      - PURGE_TRIGGER_INTERVAL=40000
     command: tail -f /dev/null
     ports:
       - '${SERVER_PORT:-8282}:80'
