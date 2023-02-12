@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import { Application } from 'express';
 
 import { Configs } from './configs';
@@ -13,6 +14,7 @@ const apiUrlPath = '/api';
 export async function addApi(app: Application): Promise<Application> {
   await connectDb(Configs);
 
+  app.use(apiUrlPath, cors());
   app.use(apiUrlPath, bodyParser.json({ limit: payloadLimit }));
   app.use(apiUrlPath, bodyParser.urlencoded({ extended: true, limit: payloadLimit }));
   app.use(apiUrlPath, getLogger());
