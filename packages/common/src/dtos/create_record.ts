@@ -1,7 +1,6 @@
 export enum RecordExpirationUnitEnum {
   days = 'days',
   hours = 'hours',
-  minutes = 'minutes',
 }
 
 export interface IRecordExpirationSettings {

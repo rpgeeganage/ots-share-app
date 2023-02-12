@@ -15,6 +15,9 @@ A self-hosting app to share secrets only one-time.
   - [ **Change Mongo server** ](#change-mongo-server)
   - [ **Change the default server port** ](#change-the-default-server-port)
   - [ **Change the purge process interval** ](#change-the-purge-process-interval)
+- [ **Request and response** ](#request-and-response)
+  - [ **Request** ](#request)
+  - [ **Response** ](#response)
 - [ **Tech stack** ](#tech-stack)
 - [ **Format of the generated URL** ](#format-of-the-generated-url)
 - [ **Todo** ](#todo)
@@ -221,6 +224,77 @@ Content: test string to encrypt
 - Default value is 1 minute.
 - Please set `PURGE_TRIGGER_INTERVAL` variable in the in `docker-compose.yml` under `ots-share-run` service.
 - The `PURGE_TRIGGER_INTERVAL` value must be in `milliseconds`.
+
+## Request and Response
+
+### Request
+
+### Create record request body
+
+A sample request body is as follows.
+
+```json
+{
+  "content": "U2FsdGVkX1+XUedzb2748LeKmf9UpN9hVWjBDUwJfXs=",
+  "expireIn": {
+    "value": 10,
+    "unit": "minutes"
+  }
+}
+```
+
+| Property           | type                         | is required | purpose                                 |
+| ------------------ | ---------------------------- | ----------- | --------------------------------------- |
+| `content`          | `string`                     | yes         | Encrypted content                       |
+| `expireIn`         | `object`                     | yes         | Expiration configurations               |
+| `expireIn`.`value` | `number`                     | yes         | numerical value of expiration. E,g 1, 2 |
+| `expireIn`.`unit`  | `enum` (`'days'`, `'hours'`) | yes         | Unit of expiration.                     |
+
+- ### Sample `Create` request.
+
+```sh
+curl 'http://localhost:8282/api/record' -H 'Content-Type: application/json' \
+ --data-raw \
+ '{
+    "content" : "U2FsdGVkX1+bozD8VjexiUeHJ3BfdxrXCmRyai8V0hY=",
+    "expireIn": {
+      "value": 1,
+      "unit": "minutes"
+    }
+  }'
+--compressed
+
+```
+
+- ### Sample `GET` request.
+
+```sh
+curl 'http://localhost:8282/api/record/b2nC422huavXfMs2DWZ2Z9' -H 'Content-Type: application/json'
+```
+
+### Response
+
+A sample record body is as follows.
+
+```json
+{
+  "id": "iN2jS3y1pstio7JVXs1zLF",
+  "slug": "iN2jS3y1pstio7JVXs1zLF",
+  "content": "U2FsdGVkX1+XUedzb2748LeKmf9UpN9hVWjBDUwJfXs=",
+  "expiary": "2023-02-12T14:55:41.510Z",
+  "status": "avaiable",
+  "created_at": "2023-02-12T14:45:41.521Z"
+}
+```
+
+| Property     | type                                  | is required | purpose                                    |
+| ------------ | ------------------------------------- | ----------- | ------------------------------------------ |
+| `id`         | `string`                              | yes         | Primary key of the record                  |
+| `slug`       | `string`                              | yes         | For future use (Primary key of the record) |
+| `content`    | `string`                              | yes         | Encrypted content                          |
+| `expiary`    | `string` (`Date`)                     | yes         | Expiration date and time                   |
+| `status`     | `enum` (`'avaiable'`, `'unavaiable'`) | yes         | For future use.                            |
+| `created_at` | `string` (`Date`)                     | yes         | Record created date                        |
 
 ## Tech stack
 
