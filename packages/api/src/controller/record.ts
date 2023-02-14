@@ -43,7 +43,7 @@ export class RecordController implements IBaseControler {
  */
 let recordController: RecordController;
 
-export function getrecordController(): IBaseControler {
+export function getRecordController(): IBaseControler {
   if (!recordController) {
     const router = Router();
     const scheduleService = getRecordService();

@@ -1,8 +1,10 @@
+import { IRecord, Strategy } from '@ots-share/repository';
+
+import { Configs } from '../configs';
 import { getLogger } from '../logger';
-import { getRecordRepository, IRecordRepository } from '../repositories/record';
 
 export class RecordService {
-  constructor(private readonly repository: IRecordRepository) {}
+  constructor(private readonly repository: IRecord.IRecordPurgeRepository) {}
 
   async delete(): Promise<void> {
     const deletedCount = await this.repository.deleteOlderThan(new Date());
@@ -12,11 +14,12 @@ export class RecordService {
 
 let recordService: RecordService;
 
-export async function getRecordService() {
+export function getRecordService() {
   if (!recordService) {
-    const repository = await getRecordRepository();
-
-    recordService = new RecordService(repository);
+    const recordRepository = Strategy.selectRepository(
+      <Strategy.DbTypeEnum>Configs.DB_TYPE
+    ).getRecordRepository();
+    recordService = new RecordService(recordRepository);
   }
 
   return recordService;

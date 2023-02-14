@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { IBaseControler } from './base';
-import { getrecordController } from './record';
+import { getRecordController } from './record';
 
 /**
  * This controller handles entire /api endpoint.
@@ -31,7 +31,7 @@ export function getApiController(): IBaseControler {
     const router = Router();
 
     apiController = new ApiController(router, {
-      '/record': getrecordController(),
+      '/record': getRecordController(),
     });
   }
 

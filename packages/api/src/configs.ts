@@ -1,7 +1,12 @@
+import { Strategy } from '@ots-share/repository';
 import { z } from 'zod';
 
 const envSchema = z.object({
-  MONGO_URL: z.string().min(10),
+  DB_URL: z
+    .string()
+    .min(10)
+    .default(<string>process.env.MONGO_URL),
+  DB_TYPE: z.string().default(Strategy.DbTypeEnum.mongo),
 });
 
 const parsedConfig = envSchema.safeParse(process.env);

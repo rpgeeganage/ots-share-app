@@ -27,7 +27,8 @@
     "express-winston": "4.2.0",
     "winston": "3.8.2",
     "moment": "2.29.4",
-    "cors": "2.8.5"
+    "cors": "2.8.5",
+    "@ots-share/repository": "1.0.0"
   },
   "devDependencies": {
     "@types/cors": "2.8.13"

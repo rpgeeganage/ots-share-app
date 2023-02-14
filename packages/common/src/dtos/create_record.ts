@@ -1,5 +1,5 @@
 export enum RecordExpirationUnitEnum {
-  days = 'days',
+  minutes = 'minutes',
   hours = 'hours',
 }
 

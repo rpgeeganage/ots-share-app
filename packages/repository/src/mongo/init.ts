@@ -1,11 +1,11 @@
 import mongoose, { connect, disconnect } from 'mongoose';
 
-export function connectDb(mongoConnection: string) {
+export async function initStorage(mongoConnection: string): Promise<void> {
   mongoose.set('strictQuery', true);
 
-  return connect(mongoConnection, { autoCreate: true });
+  await connect(mongoConnection, { autoCreate: true });
 }
 
-export function disconnectDb() {
-  disconnect();
+export async function disconnectDb() {
+  await disconnect();
 }
