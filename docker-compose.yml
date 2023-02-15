@@ -35,3 +35,20 @@ services:
       - mongo-local
     links:
       - mongo-local
+
+  ots-share-run-no-db:
+    build:
+      context: .
+    container_name: ots-share-run-db
+    environment:
+      - DB_URL=${DB_URL}
+      - DEV_PORT=${DEV_PORT:-9898}
+      - PURGE_TRIGGER_INTERVAL=60000
+    command: tail -f /dev/null
+    ports:
+      - '${SERVER_PORT:-8282}:80'
+      - '${DEV_PORT:-9898}:${DEV_PORT:-9898}'
+    volumes:
+      - .:/app
+    logging:
+      driver: json-file
