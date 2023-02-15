@@ -21,7 +21,7 @@ services:
     container_name: ots-share-run
     environment:
       - DEV_PORT=${DEV_PORT:-9898}
-      - MONGO_URL=mongodb://mongo-local/ots-share
+      - DB_URL=mongodb://mongo-local/ots-share
       - PURGE_TRIGGER_INTERVAL=60000
     command: tail -f /dev/null
     ports:

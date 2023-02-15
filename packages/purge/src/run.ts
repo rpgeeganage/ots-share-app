@@ -1,14 +1,13 @@
 import { Strategy } from '@ots-share/repository';
 
 import { Configs } from './configs';
-import { initDb } from './db';
 import { getLogger } from './logger';
 import { getRecordService } from './services/record';
 
-const { initStorage } = Strategy.selectRepository(<Strategy.DbTypeEnum>Configs.DB_TYPE);
+const { initStorage } = Strategy.selectRepository(Configs.DB_URL);
 
 export async function run() {
-  await initDb(() => initStorage(Configs.DB_URL));
+  await initStorage(Configs.DB_URL);
 
   const service = getRecordService();
 

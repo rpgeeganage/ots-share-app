@@ -1,19 +1,25 @@
+import { URL } from 'node:url';
+
 import { IRepositoryStrategy } from './interfaces/strategy';
 import { initStorage as initStorageMongo } from './mongo/init';
 import { getRecordRepository } from './mongo/record';
 
-export enum DbTypeEnum {
-  pg = 'pg',
-  mongo = 'mongo',
+enum dbProtocollEnum {
+  mongodb = 'mongodb',
 }
 
-export function selectRepository(dbTypeEnum?: DbTypeEnum): IRepositoryStrategy {
-  if (!dbTypeEnum || dbTypeEnum === DbTypeEnum.mongo) {
-    return {
-      initStorage: initStorageMongo,
-      getRecordRepository,
-    };
-  }
+export function selectRepository(connectionString: string): IRepositoryStrategy {
+  const url = new URL(connectionString);
+  const protocol = url.protocol.replace(':', '');
 
-  throw new Error(`Invalid db type: ${dbTypeEnum}`);
+  switch (protocol) {
+    case dbProtocollEnum.mongodb:
+      return {
+        initStorage: () => initStorageMongo(connectionString),
+        getRecordRepository,
+      };
+
+    default:
+      throw new Error(`Invalid db type: ${url}`);
+  }
 }

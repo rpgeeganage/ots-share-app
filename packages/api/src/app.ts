@@ -10,7 +10,7 @@ import { getLogger } from './middleware/logger';
 
 const payloadLimit = '50mb';
 const apiUrlPath = '/api';
-const { initStorage } = Strategy.selectRepository(<Strategy.DbTypeEnum>Configs.DB_TYPE);
+const { initStorage } = Strategy.selectRepository(Configs.DB_URL);
 
 export async function addApi(app: Application): Promise<Application> {
   await initStorage(Configs.DB_URL);

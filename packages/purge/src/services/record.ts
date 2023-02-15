@@ -16,9 +16,7 @@ let recordService: RecordService;
 
 export function getRecordService() {
   if (!recordService) {
-    const recordRepository = Strategy.selectRepository(
-      <Strategy.DbTypeEnum>Configs.DB_TYPE
-    ).getRecordRepository();
+    const recordRepository = Strategy.selectRepository(Configs.DB_URL).getRecordRepository();
     recordService = new RecordService(recordRepository);
   }
 
