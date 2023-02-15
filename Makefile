@@ -24,7 +24,7 @@ upbndb up-background-no-db:
 api up-only-api:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_PROJECT_NAME}-api --entrypoint "npm run app:dev:api" ${RUN_SERVICE_NAME}
 
-api-no-db up-only-api-no-db:
+apindb up-only-api-no-db:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_NO_DB_PROJECT_NAME}-api --entrypoint "npm run app:dev:api" ${RUN_NO_DB_SERVICE_NAME}
 
 cmd connect-to-command-line:
@@ -41,10 +41,10 @@ down:
 test:
 	docker-compose -f ${DOCKER_COMPOSE} run --rm --name ${BUILD_PROJECT_NAME}-test --entrypoint "npm t" ${BUILD_PROJECT_NAME}
 
-execute:
+execute exec:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_PROJECT_NAME}-app --entrypoint "npm run start" ${RUN_SERVICE_NAME}
 
-execute-no-db:
+execute-no-db execndb:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_NO_DB_PROJECT_NAME}-app --entrypoint "npm run start" ${RUN_NO_DB_PROJECT_NAME}
 
 remove-node-modules rmn:
