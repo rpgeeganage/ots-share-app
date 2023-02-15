@@ -1,8 +1,8 @@
-import * as pg from 'pg';
+import { PoolClient, Pool } from 'pg';
 
-let client: pg.PoolClient;
+let client: PoolClient;
 
-export function getClient(): pg.PoolClient {
+export function getClient(): PoolClient {
   if (!client) {
     throw new Error('Postgress client is not initialised');
   }
@@ -12,11 +12,12 @@ export function getClient(): pg.PoolClient {
 
 export async function initStorage(connectionString: string, initQuery: string): Promise<void> {
   if (!client) {
-    const pool = new pg.Pool({
+    const pool = new Pool({
       connectionString,
     });
 
     client = await pool.connect();
   }
+
   await client.query(initQuery);
 }
