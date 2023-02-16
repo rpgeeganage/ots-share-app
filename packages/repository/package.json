@@ -1,7 +1,7 @@
 {
   "name": "@ots-share/repository",
   "version": "1.0.0",
-  "description": "",
+  "description": "All storage repositories",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {

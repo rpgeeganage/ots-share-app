@@ -1,7 +1,7 @@
 {
   "name": "@ots-share/main",
   "version": "1.0.0",
-  "description": "",
+  "description": "Main package. Where the all the magic assembled",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {

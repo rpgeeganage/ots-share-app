@@ -1,6 +1,7 @@
 {
   "name": "@ots-share/ui",
   "version": "1.0.0",
+  "description": "The User interface app",
   "private": true,
   "main": "build/server/index.js",
   "types": "build/server/index.d.ts",

@@ -1,7 +1,7 @@
 {
   "name": "ots-share",
   "version": "1.0.0",
-  "description": "",
+  "description": "A self-hosting app to share secrets only one-time",
   "private": true,
   "workspaces": ["./packages/*"],
   "main": "./build/src/index.js",
@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rpgeeganage/ots-share.git"
+    "url": "git+https://github.com/rpgeeganage/ots-share-app.git"
   },
-  "author": "",
+  "author": "Ruwan Geeganage",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rpgeeganage/ots-share/issues"
+    "url": "https://github.com/rpgeeganage/ots-share-app/issues"
   },
-  "homepage": "https://github.com/rpgeeganage/ots-share#readme",
+  "homepage": "https://github.com/rpgeeganage/ots-share-app#readme",
   "dependencies": {
   "source-map-support": "0.5.21"
   },
