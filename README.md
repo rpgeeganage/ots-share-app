@@ -6,7 +6,7 @@ A self-hosting app to share secrets only one-time.
 
 - [ **Features** ](#features)
 - [ **How to execute** ](#how-to-execute)
-  - [ **With the default Database**](#with-the-default-database)
+  - [ **With the default database**](#with-the-default-database)
   - [ **Without the default database**](#without-the-default-database)
   - [ **Access UI**](#access-ui)
 - [ **Request and response** ](#request-and-response)
@@ -41,7 +41,7 @@ A self-hosting app to share secrets only one-time.
 
 ## How to execute
 
-### With the default Database
+### With the default database
 
 This application is entirely run in Docker and comes with `Mongo 4.2` image. (view the `docker-compose.yml` for further reference.)
 
