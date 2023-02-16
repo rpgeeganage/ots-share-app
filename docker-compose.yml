@@ -41,7 +41,7 @@ services:
       context: .
     container_name: ots-share-run-db
     environment:
-      - DB_URL=${DB_URL:-mysql://root:root@host.docker.internal:3306/ots_share}
+      - DB_URL=${DB_URL}
       - DEV_PORT=${DEV_PORT:-9898}
       - PURGE_TRIGGER_INTERVAL=60000
     command: tail -f /dev/null

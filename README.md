@@ -6,6 +6,9 @@ A self-hosting app to share secrets only one-time.
 
 - [ **Features** ](#features)
 - [ **How to execute** ](#how-to-execute)
+  - [ **With the default Database**](#with-the-default-database)
+  - [ **Without the default database**](#without-the-default-database)
+  - [ **Access UI**](#access-ui)
 - [ **Request and response** ](#request-and-response)
   - [ **Request** ](#request)
   - [ **Response** ](#response)
@@ -15,11 +18,12 @@ A self-hosting app to share secrets only one-time.
   - [ **Errors** ](#errors)
 - [ **CLI usage**](#cli-usage)
 - [ **Change configurations** ](#change-configurations)
-  - [ **Change Mongo server** ](#change-mongo-server)
+  - [ **Change Database server** ](#change-database-server)
   - [ **Change the default server port** ](#change-the-default-server-port)
   - [ **Change the purge process interval** ](#change-the-purge-process-interval)
 - [ **Tech stack** ](#tech-stack)
 - [ **Format of the generated URL** ](#format-of-the-generated-url)
+- [ **Road map**](#road-map)
 - [ **Todo** ](#todo)
 
 ## Features
@@ -29,17 +33,50 @@ A self-hosting app to share secrets only one-time.
   (Using [Crypto-js](https://cryptojs.gitbook.io/docs/#the-cipher-algorithms))
 - Passwords are **NOT** sent to the backend server.
 - The app periodically deletes encrypted content after it expires, and the encrypted content gets deleted once the web UI fetches it.
-- CLI support
+- CLI support.
+- Multiple database connectivity support.
+  - `Mongo`
+  - `Postgres`
+  - `MySQL`
 
 ## How to execute
+
+### With the default Database
 
 This application is entirely run in Docker and comes with `Mongo 4.2` image. (view the `docker-compose.yml` for further reference.)
 
 To execute this app, simply run following command.
 
 ```bash
-  make start
+
+make start
+
 ```
+
+### Without the default database
+
+This application can connect to a external database.
+(Currently support **`Postgres`** and **`Mysql`**).
+
+To execute this app, simply run following command.
+
+```bash
+# Set the connection string to your database.
+export DB_URL=mysql://root:root@host.docker.internal:3306/ots_share
+
+make start-no-db
+```
+
+**OR**
+
+Change the modify the `DB_URL` variable under `ots-share-run-no-db` service in `docker-compose.yml`,
+and then run
+
+```bash
+make start-no-db
+```
+
+### Access UI
 
 After that, the application is accessible via [http://localhost:8282](http://localhost:8282)
 
@@ -277,32 +314,51 @@ Content: test string to encrypt
 
 ## Change configurations
 
-### All the configurations are mentioned in the `docker-compose.yml` under `ots-share-run` service.
+### All the configurations are mentioned in the `docker-compose.yml` under or `ots-share-run-no-db` service.
 
-- Change default port to access the application are available in `docker-compose.yml` under `ots-share-run` service.
+- Change default port to access the application are available in `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
 - You can modify the `mongo-local` service in `docker-compose.yml` to keep the data persistent.
 
-#### Change Mongo server.
+#### Change Database server.
 
-- Please change the `MONGO_URL` variable the `docker-compose.yml` under `ots-share-run` service.
+- Please change the `DEV_PORT` variable the `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
+
+- Please change the `DEV_PORT` variable the `docker-compose.yml` under `ots-share-run-no-db` service to connect to external database.
+
+- `DB_URL` must be a connection string.
+  - The app parse the `DB_URL` as an `URL` and use the `protocol` to identify the `database` driver.
+  - sample connection strings:
+    - `mongodb://mongo-local/ots-share` - for `Mongo`
+    - `postgres://db:db@host.docker.internal:5432/ots_share` - for `Postgres`
+    - `mysql://root:root@host.docker.internal:3306/ots_share` - for `MySQL`
 
 #### Change the default server port.
 
-- Please change `SERVER_PORT` variable in the in `docker-compose.yml` under `ots-share-run` service.
+- Please change `SERVER_PORT` variable in the in `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
 
 #### Change the purge process interval.
 
 - Default value is 1 minute.
-- Please set `PURGE_TRIGGER_INTERVAL` variable in the in `docker-compose.yml` under `ots-share-run` service.
+- Please set `PURGE_TRIGGER_INTERVAL` variable in the in `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
 - The `PURGE_TRIGGER_INTERVAL` value must be in `milliseconds`.
 
 ## Tech stack
 
-**UI:** React, Material UI
+- **UI:**
 
-**Server:** Typescript, Node, Express
+  - React
+  - Material UI
 
-**DB:** MongoDB
+- **Server:**
+
+  - Typescript
+  - Node
+  - Express
+
+- **DB support:**
+  - `MongoDB` - (`default DB`)
+  - `Postgres`
+  - `MySQL`
 
 ## Format of the generated URL
 
@@ -313,6 +369,12 @@ The format is as follows.
 - `<hosted-domain>/r/Base58Encoded(id-from-api : password)`
 
 - It supports `Base 64` encoding now.
+
+## Road map
+
+- A Chrome extension
+- A Slack app
+- Support files
 
 ## Todo
 
