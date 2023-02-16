@@ -379,6 +379,6 @@ The format is as follows.
 ## Todo
 
 - Add `Contribution` instructions.
-- Add tests. (Current tests are just fake once) :facepalm:.
+- Add tests.
 - Learn more ReactJs. :smile:
 - Fix any bugs. :smile:
