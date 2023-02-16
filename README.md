@@ -18,7 +18,7 @@ A self-hosting app to share secrets only one-time.
   - [ **Errors** ](#errors)
 - [ **CLI usage**](#cli-usage)
 - [ **Change configurations** ](#change-configurations)
-  - [ **Change Database server** ](#change-database-server)
+  - [ **Change database server** ](#change-database-server)
   - [ **Change the default server port** ](#change-the-default-server-port)
   - [ **Change the purge process interval** ](#change-the-purge-process-interval)
 - [ **Tech stack** ](#tech-stack)
@@ -319,7 +319,7 @@ Content: test string to encrypt
 - Change default port to access the application are available in `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
 - You can modify the `mongo-local` service in `docker-compose.yml` to keep the data persistent.
 
-#### Change Database server.
+#### Change database server.
 
 - Please change the `DEV_PORT` variable the `docker-compose.yml` under `ots-share-run` or `ots-share-run-no-db` service.
 
