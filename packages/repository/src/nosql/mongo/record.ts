@@ -1,6 +1,6 @@
 import { models } from '@ots-share/common';
 
-import { IRecordPurgeRepository, IRecordRepository } from '../interfaces/record';
+import { IRecordPurgeRepository, IRecordRepository } from '../../interfaces/record';
 
 import { RecordModel } from './models/record';
 

@@ -1,16 +1,15 @@
 import { URL } from 'node:url';
 
 import { IRepositoryStrategy } from './interfaces/strategy';
-import { initStorage as initStorageMongo } from './mongo/init';
-import { getRecordRepository as getRecordRepositoryMongo } from './mongo/record';
-import { initStorage as initStoragePg } from './pg/init';
-import { sql as initSqlPg } from './pg/init_sql';
-import { getRecordRepository as getRecordRepositoryPg } from './pg/record';
+import { mongo } from './nosql/';
+import { postgresSql, mysql } from './rdbms';
+import { record as recordRdbms } from './rdbms/models';
 
 enum dbProtocollEnum {
   mongodb = 'mongodb',
   postgres = 'postgres',
   postgresql = 'postgresql',
+  mysql = 'mysql',
 }
 
 export function selectRepository(connectionString: string): IRepositoryStrategy {
@@ -20,15 +19,21 @@ export function selectRepository(connectionString: string): IRepositoryStrategy 
   switch (protocol) {
     case dbProtocollEnum.mongodb:
       return {
-        initStorage: () => initStorageMongo(connectionString),
-        getRecordRepository: getRecordRepositoryMongo,
+        initStorage: () => mongo.initStorageMongo(connectionString),
+        getRecordRepository: mongo.getRecordRepositoryMongo,
       };
 
     case dbProtocollEnum.postgres:
     case dbProtocollEnum.postgresql:
       return {
-        initStorage: () => initStoragePg(connectionString, initSqlPg),
-        getRecordRepository: getRecordRepositoryPg,
+        initStorage: () => postgresSql.initStoragePostgreSql(connectionString),
+        getRecordRepository: () => recordRdbms.getRecordRepository(connectionString),
+      };
+
+    case dbProtocollEnum.mysql:
+      return {
+        initStorage: () => mysql.initStorageMySql(connectionString),
+        getRecordRepository: () => recordRdbms.getRecordRepository(connectionString),
       };
 
     default:
