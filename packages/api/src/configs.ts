@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-  MONGO_URL: z.string().min(10),
+  DB_URL: z.string().min(10),
 });
 
 const parsedConfig = envSchema.safeParse(process.env);

@@ -7,9 +7,6 @@
   "references": [
     {
       "path": "../common"
-    },
-    {
-      "path": "../repository"
     }
   ],
   "include": ["./src/**/*", "./tests/**/*.ts"]

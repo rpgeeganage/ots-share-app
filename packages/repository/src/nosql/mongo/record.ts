@@ -1,15 +1,10 @@
 import { models } from '@ots-share/common';
 
-import { RecordModel } from '../models/record';
+import { IRecordPurgeRepository, IRecordRepository } from '../../interfaces/record';
 
-export interface IRecordRepository {
-  findById: (id: string) => Promise<models.IRecord | undefined>;
-  create: (record: models.IRecord) => Promise<models.IRecord>;
-  update: (record: models.IRecord) => Promise<models.IRecord>;
-  delete: (id: string) => Promise<void>;
-}
+import { RecordModel } from './models/record';
 
-export class RecordRepository implements IRecordRepository {
+export class RecordRepository implements IRecordRepository, IRecordPurgeRepository {
   constructor(private readonly model: typeof RecordModel) {}
 
   async findById(id: string): Promise<models.IRecord | undefined> {
@@ -38,6 +33,16 @@ export class RecordRepository implements IRecordRepository {
     await this.model.deleteOne({ id });
   }
 
+  async deleteOlderThan(date: Date): Promise<number> {
+    const { deletedCount } = await this.model.deleteMany({
+      expiary: {
+        $lt: date,
+      },
+    });
+
+    return deletedCount;
+  }
+
   private async upsert(record: models.IRecord): Promise<models.IRecord> {
     const newRecord = new this.model(record);
     const data = await newRecord.save();
@@ -52,9 +57,9 @@ export class RecordRepository implements IRecordRepository {
   }
 }
 
-let recordRepository: RecordRepository;
+let recordRepository: IRecordRepository & IRecordPurgeRepository;
 
-export function getRecordRepository() {
+export function getRecordRepository(): IRecordRepository & IRecordPurgeRepository {
   if (!recordRepository) {
     recordRepository = new RecordRepository(RecordModel);
   }

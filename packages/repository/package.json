@@ -1,7 +1,7 @@
 {
-  "name": "@ots-share/purge",
+  "name": "@ots-share/repository",
   "version": "1.0.0",
-  "description": "Purge the expired records",
+  "description": "All storage repositories",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
@@ -14,8 +14,13 @@
     "lint-stage-others": "prettier --write"
   },
   "dependencies": {
-    "mongodb": "5.0.1",
-    "winston": "3.8.2",
-    "@ots-share/repository": "1.0.0"
+    "mongoose": "6.9.0",
+    "@ots-share/common": "1.0.0",
+    "pg": "8.9.0",
+    "mysql2": "3.1.2",
+    "knex": "2.4.2"
+  },
+  "devDependencies": {
+    "@types/pg": "8.6.6"
   }
 }

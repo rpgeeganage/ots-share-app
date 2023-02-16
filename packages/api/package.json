@@ -1,7 +1,7 @@
 {
   "name": "@ots-share/api",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend API packages",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
@@ -23,6 +23,7 @@
     "short-uuid": "4.2.2",
     "mongoose": "6.9.0",
     "@ots-share/common": "1.0.0",
+    "@ots-share/repository": "1.0.0",
     "reflect-metadata": "0.1.13",
     "express-winston": "4.2.0",
     "winston": "3.8.2",

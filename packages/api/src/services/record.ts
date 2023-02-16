@@ -1,17 +1,18 @@
 import { models, dtos } from '@ots-share/common';
+import { IRecord, Strategy } from '@ots-share/repository';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import moment from 'moment';
 import shortUuid from 'short-uuid';
 
+import { Configs } from '../configs';
 import { CreateRecordDto } from '../dtos/create_record';
 import { GetRecordDto } from '../dtos/get_record';
 import { InvalidRequest } from '../errors/invalid_request';
 import { NotFoundError } from '../errors/not_found';
-import { getRecordRepository, IRecordRepository } from '../repositories/record';
 
 export class RecordService {
-  constructor(private readonly repository: IRecordRepository) {}
+  constructor(private readonly repository: IRecord.IRecordRepository) {}
 
   create(dto: CreateRecordDto): Promise<models.IRecord> {
     const dtoInstance = <dtos.ICreateRecordDto>plainToInstance(CreateRecordDto, dto);
@@ -76,7 +77,9 @@ let recordService: RecordService;
 
 export function getRecordService() {
   if (!recordService) {
-    recordService = new RecordService(getRecordRepository());
+    const repository = Strategy.selectRepository(Configs.DB_URL).getRecordRepository();
+
+    recordService = new RecordService(repository);
   }
 
   return recordService;

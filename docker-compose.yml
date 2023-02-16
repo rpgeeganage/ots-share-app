@@ -1,11 +1,5 @@
 version: '3.5'
 services:
-  mongo-local:
-    image: mongo:4.2
-    container_name: mongo-local
-    ports:
-      - '27017:27017'
-
   ots-share-build:
     build:
       context: .
@@ -21,7 +15,7 @@ services:
     container_name: ots-share-run
     environment:
       - DEV_PORT=${DEV_PORT:-9898}
-      - MONGO_URL=mongodb://mongo-local/ots-share
+      - DB_URL=mongodb://ots-share-mongo-local/ots-share
       - PURGE_TRIGGER_INTERVAL=60000
     command: tail -f /dev/null
     ports:
@@ -32,6 +26,30 @@ services:
     logging:
       driver: json-file
     depends_on:
-      - mongo-local
+      - ots-share-mongo-local
     links:
-      - mongo-local
+      - ots-share-mongo-local
+
+  ots-share-run-no-db:
+    build:
+      context: .
+    container_name: ots-share-run-db
+    environment:
+      # - DB_URL=${DB_URL:-mongodb://ots-share-mongo-local/ots-share}
+      - DB_URL=
+      - DEV_PORT=${DEV_PORT:-9898}
+      - PURGE_TRIGGER_INTERVAL=60000
+    command: tail -f /dev/null
+    ports:
+      - '${SERVER_PORT:-8282}:80'
+      - '${DEV_PORT:-9898}:${DEV_PORT:-9898}'
+    volumes:
+      - .:/app
+    logging:
+      driver: json-file
+
+  ots-share-mongo-local:
+    image: mongo:4.2
+    container_name: ots-share-mongo-local
+    ports:
+      - '27017:27017'
