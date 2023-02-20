@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import copy from 'copy-to-clipboard';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -159,7 +161,7 @@ export default function Create() {
                       <IconButton
                         edge="end"
                         color="primary"
-                        onClick={() => navigator.clipboard.writeText(password)}
+                        onClick={() => copy(password)}
                       >
                         <Tooltip id="copyContent" title="Copy password">
                           <ContentCopyIcon />
@@ -274,7 +276,7 @@ function successDialogBox({
                     <IconButton
                       edge="end"
                       color="primary"
-                      onClick={() => navigator.clipboard.writeText(content)}
+                      onClick={() => copy(content)}
                     >
                       <ContentCopyIcon />
                     </IconButton>

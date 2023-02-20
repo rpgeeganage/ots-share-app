@@ -3,7 +3,7 @@ services:
   ots-share-bundle:
     build:
       context: .
-      dockerfile: DockerfileBundle
+      dockerfile: Dockerfile.bundle
     container_name: ots-share-bundle
     environment:
       - DEV_PORT=${DEV_PORT:-9898}

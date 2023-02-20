@@ -26,7 +26,8 @@
     "crypto-js": "4.1.1",
     "@ots-share/common": "1.0.0",
     "bs58": "5.0.0",
-    "crypto-random-string": "5.0.0"
+    "crypto-random-string": "5.0.0",
+    "copy-to-clipboard": "3.3.3"
   },
   "scripts": {
     "prebuild:server": "rm -rf build/server",

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import copy from 'copy-to-clipboard';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -108,7 +110,7 @@ export default function Reveal() {
               <IconButton
                 edge="end"
                 color="primary"
-                onClick={() => navigator.clipboard.writeText(content)}
+                onClick={() => copy(content)}
               >
                 <Tooltip id="copyContent" title="Copy content">
                   <ContentCopyIcon />
