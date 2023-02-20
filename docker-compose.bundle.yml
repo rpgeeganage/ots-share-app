@@ -20,6 +20,6 @@ services:
 
   ots-share-mongo-local-bundle:
     image: mongo:4.2
-    container_name: ots-share-mongo-local
+    container_name: ots-share-mongo-local-bundle
     ports:
       - '27017:27017'
