@@ -22,6 +22,8 @@ A self-hosting app to share secrets only one-time.
   - [ **Change the default server port** ](#change-the-default-server-port)
   - [ **Change the purge process interval** ](#change-the-purge-process-interval)
 - [ **Tech stack** ](#tech-stack)
+- [ **Using with deploy tools**](#using-with-deploy-tools)
+  - [ **With https://www.portainer.io/**](#with-httpswwwportainerio)
 - [ **Format of the generated URL** ](#format-of-the-generated-url)
 - [ **Road map**](#road-map)
 - [ **Todo** ](#todo)
@@ -359,6 +361,18 @@ Content: test string to encrypt
   - `MongoDB` - (`default DB`)
   - `Postgres`
   - `MySQL`
+
+## Using with deploy tools
+
+### With **https://www.portainer.io/**
+
+- Step 1 & 2.
+  ![step1](https://user-images.githubusercontent.com/10336353/220198712-7d379d69-3fdb-430a-93f6-c02c0d6b4ae9.png)
+
+- Step 3.
+  ![step 2](https://user-images.githubusercontent.com/10336353/220198843-8be34f58-f7dd-465d-b59a-7e9b4764ffc0.png)
+
+- Press **Deploy the stack** to deploy.
 
 ## Format of the generated URL
 
