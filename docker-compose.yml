@@ -3,6 +3,7 @@ services:
   ots-share-build:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: ots-share-build
     volumes:
       - .:/app

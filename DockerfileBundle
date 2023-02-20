@@ -1,0 +1,15 @@
+#########################
+# OTS-Share
+#########################
+FROM node:18.13.0-alpine as ots-share-bundle
+
+WORKDIR /app
+
+COPY ./ /app
+
+RUN npm i
+
+ENV NODE_ENV=prod
+
+RUN npm run build; exit 0
+RUN npm run start
