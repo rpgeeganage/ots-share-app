@@ -1,4 +1,5 @@
 import { AES, enc, lib, PBKDF2, mode, pad } from 'crypto-js';
+import cryptoRandomString from 'crypto-random-string';
 
 export function encrypt(content: string, password: string) {
   const cipherText = AES.encrypt(content, password, {
@@ -22,7 +23,7 @@ export function decrypt(content: string, password: string) {
 }
 
 export function createRandomPassword(): string {
-  return PBKDF2(crypto.randomUUID(), lib.WordArray.random(128 / 8), {
+  return PBKDF2(cryptoRandomString({ length: 32 }), lib.WordArray.random(128 / 8), {
     keySize: 256 / 32,
   }).toString(enc.Hex);
 }
