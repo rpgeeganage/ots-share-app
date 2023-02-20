@@ -12,4 +12,4 @@ RUN npm i
 ENV NODE_ENV=prod
 
 RUN npm run build; exit 0
-RUN npm run start
+CMD npm run start
