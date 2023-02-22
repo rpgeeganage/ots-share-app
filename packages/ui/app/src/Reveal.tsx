@@ -23,12 +23,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { models } from '@ots-share/model';
 
-import { decrypt } from './lib/encryption';
-import { get } from './lib/api';
-import { parseAndExtractUrl } from './lib/url';
+import { decrypt } from './lib/utils/encryption';
+import { get } from './lib/utils/api';
+import { parseAndExtractUrl } from './lib/utils/url';
 
-import LoadScreen from './LoadScreen';
-import ErrorDialog from './ErrorDialog';
+import LoadScreen from './lib/components/LoadScreen';
+import ErrorDialog from './lib/components/ErrorDialog';
 
 const title = 'View One-time secret';
 

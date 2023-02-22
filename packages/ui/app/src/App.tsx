@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Create from './Create';
+import CreateRecord from './CreateRecord';
 import Reveal from './Reveal';
 
 export default function App() {
-  console.log(window.location.pathname);
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Create />} />
+        <Route index element={<CreateRecord />} />
         <Route path="r/*" element={<Reveal />} />
-        <Route path="*" element={<Create />} />
+        <Route path="*" element={<CreateRecord />} />
       </Route>
     </Routes>
   );
