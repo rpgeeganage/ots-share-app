@@ -14,6 +14,5 @@ export interface IRecord {
   content: string;
   expiary: Date;
   type: RecordTypeEnum;
-  mimeType: string;
   status: RecordStatusEnum;
 }

@@ -18,9 +18,7 @@ async function createRecordSchema(knex: Knex) {
       t.text('content');
       t.dateTime('expiary');
       t.string('status', 50);
-
       t.string('type', 50);
-      t.string('mimeType', 50);
       t.dateTime('created_at').defaultTo(knex.fn.now());
 
       return t;

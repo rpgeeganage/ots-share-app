@@ -11,7 +11,7 @@ export class RecordRepository implements IRecordRepository, IRecordPurgeReposito
 
   async findById(id: string): Promise<models.IRecord | undefined> {
     const results = await this.client
-      .column('id', 'slug', 'content', 'expiary', 'status', 'type', 'mimeType')
+      .column('id', 'slug', 'content', 'expiary', 'status', 'type')
       .select()
       .from<models.IRecord>(RECORD_TABLE_NAME)
       .where('id', id);

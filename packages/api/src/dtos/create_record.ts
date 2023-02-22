@@ -2,14 +2,7 @@ import 'reflect-metadata';
 
 import { dtos, models } from '@ots-share/model';
 import { Type } from 'class-transformer';
-import {
-  IsDefined,
-  IsString,
-  ValidateNested,
-  IsOptional,
-  IsEnum,
-  IsMimeType,
-} from 'class-validator';
+import { IsDefined, IsString, ValidateNested, IsOptional, IsEnum } from 'class-validator';
 
 import { RecordExpirationSettings } from './record_expiration_settings';
 
@@ -26,8 +19,4 @@ export class CreateRecordDto implements dtos.ICreateRecordDto {
   @IsOptional()
   @IsEnum(models.RecordTypeEnum)
   declare type: models.RecordTypeEnum;
-
-  @IsOptional()
-  @IsMimeType()
-  declare mimeType: string;
 }

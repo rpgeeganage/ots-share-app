@@ -1,8 +1,6 @@
 import { models } from '@ots-share/model';
 import { Schema, model } from 'mongoose';
 
-import { DEFAULT_MIME_TYPE } from '../../../common';
-
 const recordSchema = new Schema<models.IRecord>(
   {
     id: { type: String, required: true, index: true },
@@ -18,10 +16,6 @@ const recordSchema = new Schema<models.IRecord>(
       type: String,
       enum: Object.values(models.RecordTypeEnum),
       default: models.RecordTypeEnum.text,
-    },
-    mimeType: {
-      type: String,
-      default: DEFAULT_MIME_TYPE,
     },
   },
   { timestamps: { createdAt: 'created_at' } }

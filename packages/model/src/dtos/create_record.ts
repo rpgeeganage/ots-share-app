@@ -14,5 +14,4 @@ export interface ICreateRecordDto {
   content: string;
   expireIn: IRecordExpirationSettings;
   type?: RecordTypeEnum;
-  mimeType?: string;
 }
