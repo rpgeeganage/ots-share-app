@@ -8,18 +8,28 @@ type parsedPathType =
   | {
       id: string;
       password: string;
+      fileName?: string;
     }
   | undefined;
 
 export function buildUrlToShare(
   domain: string,
   response: models.IRecord,
-  encriptionKey: string
+  encriptionKey: string,
+  fileName?: string
 ): string {
   const encoder = new TextEncoder();
-  const encodedArray = encoder.encode(`${response.id}${idKeySeparator}${encriptionKey}`);
+  const urlPath = [response.id, encriptionKey];
 
-  return `${domain}/${REVEAL_CONTENT_URL_PATH}/${encodeURIComponent(base58.encode(encodedArray))}`;
+  if (fileName) {
+    urlPath.push(fileName);
+  }
+
+  const encodedArray = encoder.encode(urlPath.join(idKeySeparator));
+
+  return [domain, REVEAL_CONTENT_URL_PATH, encodeURIComponent(base58.encode(encodedArray))].join(
+    '/'
+  );
 }
 
 export function parseAndExtractUrl(url: string): parsedPathType {
@@ -30,7 +40,7 @@ export function parseAndExtractUrl(url: string): parsedPathType {
     return undefined;
   }
 
-  const decodedString = decodeURIComponent(keyIdPath)
+  const decodedString = decodeURIComponent(keyIdPath);
 
   return base58Decode(decodedString) ?? base64Decode(decodedString);
 }
@@ -38,7 +48,7 @@ export function parseAndExtractUrl(url: string): parsedPathType {
 function base58Decode(stringToDecode: string): parsedPathType {
   const decoder = new TextDecoder();
   const text = decoder.decode(base58.decode(stringToDecode));
-  const [id, password] = text.split(idKeySeparator, 2);
+  const [id, password, fileName] = text.split(idKeySeparator, 3);
 
   if (!id || !password) {
     return undefined;
@@ -47,11 +57,12 @@ function base58Decode(stringToDecode: string): parsedPathType {
   return {
     id,
     password,
+    fileName,
   };
 }
 
 function base64Decode(stringToDecode: string): parsedPathType {
-  const [id, password] = atob(stringToDecode).split(idKeySeparator, 2);
+  const [id, password, fileName] = atob(stringToDecode).split(idKeySeparator, 3);
 
   if (!id || !password) {
     return undefined;
@@ -60,5 +71,6 @@ function base64Decode(stringToDecode: string): parsedPathType {
   return {
     id,
     password,
+    fileName,
   };
 }
