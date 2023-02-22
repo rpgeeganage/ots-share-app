@@ -27,7 +27,8 @@
     "@ots-share/model": "1.0.0",
     "bs58": "5.0.0",
     "crypto-random-string": "5.0.0",
-    "copy-to-clipboard": "3.3.3"
+    "copy-to-clipboard": "3.3.3",
+    "pretty-bytes": "6.1.0"
   },
   "scripts": {
     "prebuild:server": "rm -rf build/server",

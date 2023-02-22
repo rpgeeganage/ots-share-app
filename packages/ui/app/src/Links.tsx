@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import AppBar from '@mui/material/AppBar';
 
 import CreateRecord from './CreateRecord';
+import CreateFile from './CreateFile';
 import Reveal from './Reveal';
 
 const routeMap = new Map<number, string>();
@@ -45,7 +46,6 @@ export function TabMenu() {
           textColor="primary"
           variant="scrollable"
           scrollButtons="auto"
-          aria-label="scrollable auto tabs example"
         >
           <Tab value={0} label="Text" id={`tab-${0}`} aria-controls={`tabpanel-${0}`} />
           <Tab value={1} label="File" id={`tab-${1}`} aria-controls={`tabpanel-${1}`} />
@@ -63,6 +63,7 @@ export function AppRoutes() {
         <Route index element={<CreateRecord />} />
         <Route path="/r/*" element={<Reveal />} />
         <Route path="/text" element={<CreateRecord />} />
+        <Route path="/file" element={<CreateFile />} />
         <Route path="*" element={<CreateRecord />} />
       </Route>
     </Routes>

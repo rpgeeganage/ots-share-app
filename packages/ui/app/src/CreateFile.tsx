@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import copy from 'copy-to-clipboard';
+import prettyBytes from 'pretty-bytes';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -18,6 +19,7 @@ import Paper from '@mui/material/Paper';
 import DialogTitle from '@mui/material/DialogTitle';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import Chip from '@mui/material/Chip';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -34,9 +36,12 @@ import Password from './lib/components/Password';
 import ExpiresInValue from './lib/components/ExpiresInValue';
 import ExpiresInUnit from './lib/components/ExpiresInUnit';
 
-const title = 'Create One-time secret share - for a text';
+const MIN_FILE_SIZE = 1;
+const MAX_FILE_SIZE = 1024;
 
-export default function CreateRecord() {
+const title = 'Create One-time secret share - for a small file';
+
+export default function CreateFile() {
   const [password, setPassword] = useState(createRandomPassword());
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const [isSuccessRequest, setIsSuccessRequest] = useState(true);
@@ -116,6 +121,16 @@ export default function CreateRecord() {
                 <Typography component="h1" variant="h5">
                   {title}
                 </Typography>
+                <Chip
+                  label={`Minimum file size: ${prettyBytes(MIN_FILE_SIZE * 1024)}`}
+                  color="primary"
+                  variant="outlined"
+                />
+                <Chip
+                  label={`Maximum file size: ${prettyBytes(MAX_FILE_SIZE * 1024)}`}
+                  color="secondary"
+                  variant="outlined"
+                />
               </Stack>
               <Divider />
             </Grid>
