@@ -28,7 +28,8 @@
     "bs58": "5.0.0",
     "crypto-random-string": "5.0.0",
     "copy-to-clipboard": "3.3.3",
-    "pretty-bytes": "6.1.0"
+    "pretty-bytes": "6.1.0",
+    "react-dropzone": "14.2.3"
   },
   "scripts": {
     "prebuild:server": "rm -rf build/server",

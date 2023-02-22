@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 import copy from 'copy-to-clipboard';
 import prettyBytes from 'pretty-bytes';
@@ -40,13 +41,57 @@ const MIN_FILE_SIZE = 1;
 const MAX_FILE_SIZE = 1024;
 
 const title = 'Create One-time secret share - for a small file';
+const baseStyle = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '20px',
+  borderWidth: 2,
+  borderRadius: 2,
+  borderColor: '#eeeeee',
+  borderStyle: 'dashed',
+  backgroundColor: '#fafafa',
+  color: '#bdbdbd',
+  outline: 'none',
+  transition: 'border .24s ease-in-out',
+};
+
+const focusedStyle = {
+  borderColor: '#2196f3',
+};
+
+const acceptStyle = {
+  borderColor: '#00e676',
+};
+
+const rejectStyle = {
+  borderColor: '#ff1744',
+};
 
 export default function CreateFile() {
+  const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
+    useDropzone({
+      maxFiles: 1,
+      onDrop: () => setNoFileFound(false),
+    });
   const [password, setPassword] = useState(createRandomPassword());
+  const [noFileFound, setNoFileFound] = useState(false);
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const [isSuccessRequest, setIsSuccessRequest] = useState(true);
   const [contentForModal, setContentForModal] = useState('');
   const [showLoadModal, setShowLoadModal] = useState(false);
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isFocused ? focusedStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {}),
+    }),
+    [isFocused, isDragAccept, isDragReject]
+  );
+
+  const file = acceptedFiles[0];
 
   useEffect(() => {
     document.title = title;
@@ -66,6 +111,11 @@ export default function CreateFile() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!file) {
+      setNoFileFound(true);
+      return;
+    }
+
     setShowLoadModal(true);
 
     const data = new FormData(event.currentTarget);
@@ -135,19 +185,37 @@ export default function CreateFile() {
               <Divider />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                autoFocus
-                required
-                fullWidth
-                multiline
-                name="content"
-                label="Secret content"
-                id="content"
-                InputProps={{
-                  rows: 3,
-                }}
-              />
+              <Box {...getRootProps({ style: style as any })}>
+                <input name="fileUploads" {...getInputProps()} />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              </Box>
             </Grid>
+            {file && (
+              <Grid item xs={12}>
+                <Stack
+                  gap={1}
+                  sx={{ m: 1 }}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Chip label={`File: ${file?.name}`} color="primary" variant="outlined" />
+                </Stack>
+              </Grid>
+            )}
+            {noFileFound && (
+              <Grid item xs={12}>
+                <Stack
+                  gap={1}
+                  sx={{ m: 1 }}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Chip label={'No file has selected'} color="secondary" variant="outlined" />
+                </Stack>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Divider />
             </Grid>
