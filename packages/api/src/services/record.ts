@@ -35,7 +35,6 @@ export class RecordService {
       content: dtoInstance.content,
       expiary: moment().add(dtoInstance.expireIn.value, dtoInstance.expireIn.unit).toDate(),
       status: models.RecordStatusEnum.avaiable,
-      mimeType: dto.mimeType,
       type: dto.type,
     };
 
