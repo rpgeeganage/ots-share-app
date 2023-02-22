@@ -7,8 +7,8 @@ import prettyBytes from 'pretty-bytes';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -30,15 +30,13 @@ import { dtos, models } from '@ots-share/model';
 import { encrypt, createRandomPassword } from './lib/utils/encryption';
 import { buildUrlToShare } from './lib/utils/url';
 import { post } from './lib/utils/api';
+import { validateFile, MIN_FILE_SIZE, MAX_FILE_SIZE } from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
 import Password from './lib/components/Password';
 import ExpiresInValue from './lib/components/ExpiresInValue';
 import ExpiresInUnit from './lib/components/ExpiresInUnit';
-
-const MIN_FILE_SIZE = 1;
-const MAX_FILE_SIZE = 1024;
 
 const title = 'Create One-time secret share - for a small file';
 const baseStyle = {
@@ -73,10 +71,13 @@ export default function CreateFile() {
   const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
       maxFiles: 1,
-      onDrop: () => setNoFileFound(false),
+      onDrop: (files: File[]) => {
+        const { error } = validateFile(files[0]);
+        setFileErrorMessage(error);
+      },
     });
   const [password, setPassword] = useState(createRandomPassword());
-  const [noFileFound, setNoFileFound] = useState(false);
+  const [fileErrorMessage, setFileErrorMessage] = useState<string | undefined>(undefined);
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const [isSuccessRequest, setIsSuccessRequest] = useState(true);
   const [contentForModal, setContentForModal] = useState('');
@@ -111,8 +112,10 @@ export default function CreateFile() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!file) {
-      setNoFileFound(true);
+    const { isValid, error } = validateFile(file);
+
+    if (!isValid) {
+      setFileErrorMessage(error);
       return;
     }
 
@@ -128,6 +131,7 @@ export default function CreateFile() {
 
     post('record', {
       content: cipherText,
+      type: models.RecordTypeEnum.file,
       expireIn: {
         value: expiresInValue,
         unit: expiresInUnit,
@@ -203,7 +207,7 @@ export default function CreateFile() {
                 </Stack>
               </Grid>
             )}
-            {noFileFound && (
+            {fileErrorMessage && (
               <Grid item xs={12}>
                 <Stack
                   gap={1}
@@ -212,7 +216,7 @@ export default function CreateFile() {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Chip label={'No file has selected'} color="secondary" variant="outlined" />
+                  <Chip label={fileErrorMessage} color="secondary" variant="outlined" />
                 </Stack>
               </Grid>
             )}
