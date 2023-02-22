@@ -30,7 +30,7 @@ import { dtos, models } from '@ots-share/model';
 import { encrypt, createRandomPassword } from './lib/utils/encryption';
 import { buildUrlToShare } from './lib/utils/url';
 import { post } from './lib/utils/api';
-import { validateFile, MIN_FILE_SIZE, MAX_FILE_SIZE } from './lib/utils/file';
+import { readFileContent, validateFile, MIN_FILE_SIZE, MAX_FILE_SIZE } from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
@@ -123,20 +123,21 @@ export default function CreateFile() {
 
     const data = new FormData(event.currentTarget);
 
-    const content = data.get('content') as string;
     const password = data.get('password') as string;
     const expiresInValue = parseInt(data.get('expiresInValue') as string, 10);
     const expiresInUnit = data.get('expiresInUnit') as dtos.RecordExpirationUnitEnum;
-    const cipherText = encrypt(content, password);
 
-    post('record', {
-      content: cipherText,
-      type: models.RecordTypeEnum.file,
-      expireIn: {
-        value: expiresInValue,
-        unit: expiresInUnit,
-      },
-    })
+    readFileContent(file as File)
+      .then((content) => {
+        return post('record', {
+          content: encrypt(content, password),
+          type: models.RecordTypeEnum.file,
+          expireIn: {
+            value: expiresInValue,
+            unit: expiresInUnit,
+          },
+        });
+      })
       .then((data: { message?: string } & models.IRecord) => {
         setShowLoadModal(false);
 
@@ -145,7 +146,7 @@ export default function CreateFile() {
           setContentForModal(data.message);
         } else {
           setIsSuccessRequest(true);
-          setContentForModal(buildUrlToShare(window.location.origin, data, password));
+          setContentForModal(buildUrlToShare(window.location.origin, data, password, file?.name));
         }
 
         handleClickOpen();

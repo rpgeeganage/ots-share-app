@@ -33,3 +33,27 @@ export function validateFile(file?: File): { isValid: boolean; error?: string } 
     error: FILE_NOT_SELECTEED_ERROR,
   };
 }
+
+export function readFileContent(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(arrayBufferToBase64(reader.result as any));
+    };
+    reader.onerror = function (e) {
+      reject(e);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function arrayBufferToBase64(buffer: Uint8Array) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i] as number);
+  }
+  return btoa(binary);
+}
