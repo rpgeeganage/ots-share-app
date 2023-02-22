@@ -1,7 +1,7 @@
 import { IRecordPurgeRepository, IRecordRepository } from '../../interfaces/record';
 import { getClient } from '../postgresql/client';
 
-import type { models } from '@ots-share/common';
+import type { models } from '@ots-share/model';
 import type { Knex } from 'knex';
 
 export class RecordRepository implements IRecordRepository, IRecordPurgeRepository {

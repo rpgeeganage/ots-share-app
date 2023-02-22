@@ -1,5 +1,5 @@
 import base58 from 'bs58';
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 
 const REVEAL_CONTENT_URL_PATH = 'r';
 const idKeySeparator = ':';

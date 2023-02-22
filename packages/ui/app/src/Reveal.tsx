@@ -21,7 +21,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LockOpenOutlined from '@mui/icons-material/LockOpenOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 
 import { decrypt } from './lib/encryption';
 import { get } from './lib/api';

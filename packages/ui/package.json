@@ -24,7 +24,7 @@
     "react-scripts": "5.0.1",
     "web-vitals": "2.1.4",
     "crypto-js": "4.1.1",
-    "@ots-share/common": "1.0.0",
+    "@ots-share/model": "1.0.0",
     "bs58": "5.0.0",
     "crypto-random-string": "5.0.0",
     "copy-to-clipboard": "3.3.3"

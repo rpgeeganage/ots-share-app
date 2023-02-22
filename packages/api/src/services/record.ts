@@ -1,4 +1,4 @@
-import { models, dtos } from '@ots-share/common';
+import { models, dtos } from '@ots-share/model';
 import { IRecord, Strategy } from '@ots-share/repository';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';

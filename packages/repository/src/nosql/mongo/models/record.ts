@@ -1,4 +1,4 @@
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 import { Schema, model } from 'mongoose';
 
 const recordSchema = new Schema<models.IRecord>(

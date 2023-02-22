@@ -25,7 +25,7 @@ import RefreshRounded from '@mui/icons-material/RefreshRounded';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { dtos, models } from '@ots-share/common';
+import { dtos, models } from '@ots-share/model';
 
 import { encrypt, createRandomPassword } from './lib/encryption';
 import { buildUrlToShare } from './lib/url';

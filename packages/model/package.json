@@ -1,7 +1,7 @@
 {
-  "name": "@ots-share/common",
+  "name": "@ots-share/model",
   "version": "1.0.0",
-  "description": "Common modules",
+  "description": "Common models module",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
