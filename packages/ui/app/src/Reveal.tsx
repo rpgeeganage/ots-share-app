@@ -25,7 +25,8 @@ import { models } from '@ots-share/model';
 
 import { decrypt } from './lib/utils/encryption';
 import { get } from './lib/utils/api';
-import { parseAndExtractUrl } from './lib/utils/url';
+import { parseAndExtractUrl, parsedPathType } from './lib/utils/url';
+import { getBlob } from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
@@ -45,6 +46,16 @@ export default function Reveal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const saveFile = (fileName: string, content: Blob) => {
+    const a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(content);
+    a.addEventListener('click', () => {
+      setTimeout(() => URL.revokeObjectURL(a.href), 30 * 1000);
+    });
+    a.click();
+  };
+
   const handleUrl = (url: string) => {
     const parsedResults = parseAndExtractUrl(url);
     if (!parsedResults) {
@@ -55,13 +66,19 @@ export default function Reveal() {
     }
   };
 
-  const handleFetchUrl = ({ id, password }: { id: string; password: string }) => {
+  const handleFetchUrl = ({
+    id,
+    password,
+    fileName = 'unknown.txt',
+    mimeType = 'text/plain',
+  }: parsedPathType) => {
     setShowLoadModal(true);
 
     get(`record/${id}`)
       .then((data: { message?: string } & models.IRecord) => {
         setShowFetchContentButton(false);
         setShowLoadModal(false);
+
         if (data.message) {
           setOpenErrorModal(true);
           setContent('');
@@ -69,12 +86,19 @@ export default function Reveal() {
         } else {
           const decryptedText = decrypt(data.content, password);
 
-          if (!decryptedText) {
+          if (decryptedText) {
+            if (data.type === models.RecordTypeEnum.text) {
+              setShowFetchContentButton(false);
+              setShowLoadModal(false);
+              setContent(decryptedText);
+            } else {
+              const blob = getBlob(decryptedText, mimeType);
+              saveFile(fileName, blob);
+            }
+          } else {
             setOpenErrorModal(true);
             setContent('');
             setErrorContent('Unable to decrypt the content');
-          } else {
-            setContent(decryptedText);
           }
         }
       })
@@ -107,11 +131,7 @@ export default function Reveal() {
               </Stack>
             </Grid>
             <Grid item xs={6} alignItems="flex-end" justifyContent="flex-end" display="flex">
-              <IconButton
-                edge="end"
-                color="primary"
-                onClick={() => copy(content)}
-              >
+              <IconButton edge="end" color="primary" onClick={() => copy(content)}>
                 <Tooltip id="copyContent" title="Copy content">
                   <ContentCopyIcon />
                 </Tooltip>

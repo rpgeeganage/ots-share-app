@@ -48,6 +48,10 @@ export function readFileContent(file: File): Promise<string> {
   });
 }
 
+export function getBlob(content: string, mimeType: string): Blob {
+  return b64toBlob(content, mimeType);
+}
+
 function arrayBufferToBase64(buffer: Uint8Array) {
   let binary = '';
   const bytes = new Uint8Array(buffer);
@@ -56,4 +60,24 @@ function arrayBufferToBase64(buffer: Uint8Array) {
     binary += String.fromCharCode(bytes[i] as number);
   }
   return btoa(binary);
+}
+
+function b64toBlob(data: string, type: string, sliceSize = 512): Blob {
+  const byteCharacters = atob(data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, { type });
+  return blob;
 }

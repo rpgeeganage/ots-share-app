@@ -146,7 +146,9 @@ export default function CreateFile() {
           setContentForModal(data.message);
         } else {
           setIsSuccessRequest(true);
-          setContentForModal(buildUrlToShare(window.location.origin, data, password, file?.name));
+          setContentForModal(
+            buildUrlToShare(window.location.origin, data, password, file?.name, file?.type)
+          );
         }
 
         handleClickOpen();

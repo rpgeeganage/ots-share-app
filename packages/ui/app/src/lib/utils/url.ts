@@ -4,25 +4,29 @@ import { models } from '@ots-share/model';
 const REVEAL_CONTENT_URL_PATH = 'r';
 const idKeySeparator = ':';
 
-type parsedPathType =
-  | {
-      id: string;
-      password: string;
-      fileName?: string;
-    }
-  | undefined;
+export type parsedPathType = {
+  id: string;
+  password: string;
+  fileName?: string;
+  mimeType?: string;
+};
 
 export function buildUrlToShare(
   domain: string,
   response: models.IRecord,
   encriptionKey: string,
-  fileName?: string
+  fileName?: string,
+  mimeType?: string
 ): string {
   const encoder = new TextEncoder();
   const urlPath = [response.id, encriptionKey];
 
   if (fileName) {
     urlPath.push(fileName);
+  }
+
+  if (mimeType) {
+    urlPath.push(mimeType);
   }
 
   const encodedArray = encoder.encode(urlPath.join(idKeySeparator));
@@ -32,7 +36,7 @@ export function buildUrlToShare(
   );
 }
 
-export function parseAndExtractUrl(url: string): parsedPathType {
+export function parseAndExtractUrl(url: string): parsedPathType | undefined {
   const { pathname } = new URL(url);
   const [, , keyIdPath] = pathname.split('/', 3);
 
@@ -45,10 +49,10 @@ export function parseAndExtractUrl(url: string): parsedPathType {
   return base58Decode(decodedString) ?? base64Decode(decodedString);
 }
 
-function base58Decode(stringToDecode: string): parsedPathType {
+function base58Decode(stringToDecode: string): parsedPathType | undefined {
   const decoder = new TextDecoder();
   const text = decoder.decode(base58.decode(stringToDecode));
-  const [id, password, fileName] = text.split(idKeySeparator, 3);
+  const [id, password, fileName, mimeType] = text.split(idKeySeparator, 3);
 
   if (!id || !password) {
     return undefined;
@@ -58,11 +62,12 @@ function base58Decode(stringToDecode: string): parsedPathType {
     id,
     password,
     fileName,
+    mimeType,
   };
 }
 
-function base64Decode(stringToDecode: string): parsedPathType {
-  const [id, password, fileName] = atob(stringToDecode).split(idKeySeparator, 3);
+function base64Decode(stringToDecode: string): parsedPathType | undefined {
+  const [id, password, fileName, mimeType] = atob(stringToDecode).split(idKeySeparator, 4);
 
   if (!id || !password) {
     return undefined;
@@ -72,5 +77,6 @@ function base64Decode(stringToDecode: string): parsedPathType {
     id,
     password,
     fileName,
+    mimeType,
   };
 }
