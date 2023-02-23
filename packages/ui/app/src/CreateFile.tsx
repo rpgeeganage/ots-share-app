@@ -219,7 +219,7 @@ export default function CreateFile() {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Chip label={fileErrorMessage} color="secondary" variant="outlined" />
+                  <Chip label={fileErrorMessage} color="error" variant="outlined" />
                 </Stack>
               </Grid>
             )}

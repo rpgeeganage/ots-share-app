@@ -20,6 +20,7 @@ import Paper from '@mui/material/Paper';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LockOpenOutlined from '@mui/icons-material/LockOpenOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import { models } from '@ots-share/model';
 
@@ -40,6 +41,9 @@ export default function Reveal() {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [viewContentOpen, setViewContentOpen] = useState(false);
   const [showFetchContentButton, setShowFetchContentButton] = useState(true);
+  const [fileData, setFileData] = useState<{ data: Blob; name: string }>();
+  const [isFile, setIsFile] = useState(false);
+  const [isText, setIsText] = useState(false);
 
   useEffect(() => {
     document.title = title;
@@ -57,6 +61,9 @@ export default function Reveal() {
   };
 
   const handleUrl = (url: string) => {
+    setIsText(false);
+    setIsFile(false);
+
     const parsedResults = parseAndExtractUrl(url);
     if (!parsedResults) {
       setOpenErrorModal(true);
@@ -72,6 +79,8 @@ export default function Reveal() {
     fileName = 'unknown.txt',
     mimeType = 'text/plain',
   }: parsedPathType) => {
+    setIsText(false);
+    setIsFile(false);
     setShowLoadModal(true);
 
     get(`record/${id}`)
@@ -91,9 +100,14 @@ export default function Reveal() {
               setShowFetchContentButton(false);
               setShowLoadModal(false);
               setContent(decryptedText);
+              setIsText(true);
             } else {
               const blob = getBlob(decryptedText, mimeType);
-              saveFile(fileName, blob);
+              setIsFile(true);
+              setFileData({
+                data: blob,
+                name: fileName,
+              });
             }
           } else {
             setOpenErrorModal(true);
@@ -130,13 +144,15 @@ export default function Reveal() {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={6} alignItems="flex-end" justifyContent="flex-end" display="flex">
-              <IconButton edge="end" color="primary" onClick={() => copy(content)}>
-                <Tooltip id="copyContent" title="Copy content">
-                  <ContentCopyIcon />
-                </Tooltip>
-              </IconButton>
-            </Grid>
+            {isText && (
+              <Grid item xs={6} alignItems="flex-end" justifyContent="flex-end" display="flex">
+                <IconButton edge="end" color="primary" onClick={() => copy(content)}>
+                  <Tooltip id="copyContent" title="Copy content">
+                    <ContentCopyIcon />
+                  </Tooltip>
+                </IconButton>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Divider />
             </Grid>
@@ -146,7 +162,7 @@ export default function Reveal() {
                   Fetch content
                 </Button>
               )}
-              {!openErrorModal && !showFetchContentButton && (
+              {!openErrorModal && !showFetchContentButton && isText && (
                 <Accordion
                   expanded={viewContentOpen}
                   onClick={() => setViewContentOpen(!viewContentOpen)}
@@ -178,6 +194,20 @@ export default function Reveal() {
                     </Paper>
                   </AccordionDetails>
                 </Accordion>
+              )}
+              {!openErrorModal && !showFetchContentButton && isFile && (
+                <Button
+                  variant="contained"
+                  color='success'
+                  endIcon={<DownloadIcon />}
+                  onClick={() => {
+                    if (fileData) {
+                      saveFile(fileData.name, fileData.data);
+                    }
+                  }}
+                >
+                  Click here to download the file
+                </Button>
               )}
             </Grid>
             <Grid item xs={12}></Grid>
