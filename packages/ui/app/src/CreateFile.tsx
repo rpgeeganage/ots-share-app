@@ -32,8 +32,8 @@ import { post } from './lib/utils/api';
 import {
   readFileContent,
   validateFile,
-  getMaxFileSizeMessage,
-  getMinFileSizeMessage,
+  getPretteryMaxFileSizeMessage,
+  getPretteryMinFileSizeMessage,
 } from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
@@ -180,8 +180,8 @@ export default function CreateFile() {
                 <Typography component="h1" variant="h5">
                   {title}
                 </Typography>
-                <Chip label={getMinFileSizeMessage()} color="primary" variant="outlined" />
-                <Chip label={getMaxFileSizeMessage()} color="secondary" variant="outlined" />
+                <Chip label={getPretteryMinFileSizeMessage()} color="primary" variant="outlined" />
+                <Chip label={getPretteryMaxFileSizeMessage()} color="secondary" variant="outlined" />
               </Stack>
               <Divider />
             </Grid>

@@ -11,11 +11,11 @@ function getPrettery(message: string, value: number) {
   return `${message}${prettyBytes(value * 1024)}`;
 }
 
-export function getMaxFileSizeMessage() {
+export function getPretteryMaxFileSizeMessage() {
   return getPrettery('Maximum file size: ', MAX_FILE_SIZE)
 }
 
-export function getMinFileSizeMessage() {
+export function getPretteryMinFileSizeMessage() {
   return getPrettery('Minimum file size: ', MIN_FILE_SIZE)
 }
 

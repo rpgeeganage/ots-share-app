@@ -69,7 +69,6 @@ export default function Reveal() {
     setIsFile(false);
 
     const parsedResults = parseAndExtractUrl(url);
-    console.log(parsedResults);
 
     if (!parsedResults) {
       setOpenErrorModal(true);
