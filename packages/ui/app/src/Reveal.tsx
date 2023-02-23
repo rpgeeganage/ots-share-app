@@ -26,7 +26,7 @@ import { models } from '@ots-share/model';
 
 import { decrypt } from './lib/utils/encryption';
 import { get } from './lib/utils/api';
-import { parseAndExtractUrl, parsedPathType } from './lib/utils/url';
+import { parseAndExtractUrl, parsedPathType, RecordTypesEnum } from './lib/utils/url';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
@@ -71,14 +71,18 @@ export default function Reveal() {
     const parsedResults = parseAndExtractUrl(url);
 
     if (!parsedResults) {
-      setOpenErrorModal(true);
-      setErrorContent('Unable to parse the given URL.');
+      showError('Unable to parse the given URL.');
     } else {
       handleFetchUrl(parsedResults);
     }
   };
 
-  const handleFetchUrl = ({ id, password, fileName = 'unknown.txt' }: parsedPathType) => {
+  const handleFetchUrl = ({
+    id,
+    password,
+    type = RecordTypesEnum.text,
+    fileName = 'unknown.txt',
+  }: parsedPathType) => {
     setIsText(false);
     setIsFile(false);
     setShowLoadModal(true);
@@ -94,15 +98,15 @@ export default function Reveal() {
           const decryptedText = decrypt(data.content, password);
 
           if (decryptedText) {
-            if (data.type === models.RecordTypeEnum.text) {
-              setIsText(true);
-              setContent(decryptedText);
-            } else {
+            if (type === RecordTypesEnum.file) {
               setIsFile(true);
               setFileData({
                 data: decryptedText,
                 name: fileName,
               });
+            } else {
+              setIsText(true);
+              setContent(decryptedText);
             }
           } else {
             showError('Unable to decrypt the content');

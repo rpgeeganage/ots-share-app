@@ -25,7 +25,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { dtos, models } from '@ots-share/model';
 
 import { encrypt, createRandomPassword } from './lib/utils/encryption';
-import { buildUrlToShare } from './lib/utils/url';
+import { buildUrlToShare, RecordTypesEnum } from './lib/utils/url';
 import { post } from './lib/utils/api';
 
 import LoadScreen from './lib/components/LoadScreen';
@@ -78,15 +78,22 @@ export default function CreateRecord() {
         unit: expiresInUnit,
       },
     })
-      .then((data: { message?: string } & models.IRecord) => {
+      .then((response: { message?: string } & models.IRecord) => {
         setShowLoadModal(false);
 
-        if (data.message) {
+        if (response.message) {
           setIsSuccessRequest(false);
-          setContentForModal(data.message);
+          setContentForModal(response.message);
         } else {
           setIsSuccessRequest(true);
-          setContentForModal(buildUrlToShare(window.location.origin, data, password));
+          setContentForModal(
+            buildUrlToShare({
+              domain: window.location.origin,
+              response,
+              password,
+              type: RecordTypesEnum.text,
+            })
+          );
         }
 
         handleClickOpen();

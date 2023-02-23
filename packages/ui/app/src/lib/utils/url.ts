@@ -4,20 +4,35 @@ import { models } from '@ots-share/model';
 const REVEAL_CONTENT_URL_PATH = 'r';
 const idKeySeparator = ':';
 
+export enum RecordTypesEnum {
+  file = 'file',
+  text = 'text',
+}
+
 export type parsedPathType = {
   id: string;
   password: string;
+  type: RecordTypesEnum;
   fileName?: string;
 };
 
-export function buildUrlToShare(
-  domain: string,
-  response: models.IRecord,
-  encriptionKey: string,
-  fileName?: string
-): string {
+type urlSplitType = [string, string, RecordTypesEnum, string?];
+
+export function buildUrlToShare({
+  domain,
+  response,
+  password,
+  fileName,
+  type,
+}: {
+  domain: string;
+  response: models.IRecord;
+  password: string;
+  fileName?: string;
+  type: RecordTypesEnum;
+}): string {
   const encoder = new TextEncoder();
-  const urlPath = [response.id, encriptionKey];
+  const urlPath = [response.id, password, type];
 
   if (fileName) {
     urlPath.push(fileName);
@@ -46,7 +61,7 @@ export function parseAndExtractUrl(url: string): parsedPathType | undefined {
 function base58Decode(stringToDecode: string): parsedPathType | undefined {
   const decoder = new TextDecoder();
   const text = decoder.decode(base58.decode(stringToDecode));
-  const [id, password, fileName] = text.split(idKeySeparator);
+  const [id, password, type, fileName] = text.split(idKeySeparator) as urlSplitType;
 
   if (!id || !password) {
     return undefined;
@@ -55,12 +70,13 @@ function base58Decode(stringToDecode: string): parsedPathType | undefined {
   return {
     id,
     password,
+    type,
     fileName,
   };
 }
 
 function base64Decode(stringToDecode: string): parsedPathType | undefined {
-  const [id, password, fileName] = atob(stringToDecode).split(idKeySeparator);
+  const [id, password, type, fileName] = atob(stringToDecode).split(idKeySeparator) as urlSplitType;
 
   if (!id || !password) {
     return undefined;
@@ -69,6 +85,7 @@ function base64Decode(stringToDecode: string): parsedPathType | undefined {
   return {
     id,
     password,
+    type,
     fileName,
   };
 }

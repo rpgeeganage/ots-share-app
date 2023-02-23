@@ -27,7 +27,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { dtos, models } from '@ots-share/model';
 
 import { encrypt, createRandomPassword } from './lib/utils/encryption';
-import { buildUrlToShare } from './lib/utils/url';
+import { buildUrlToShare, RecordTypesEnum } from './lib/utils/url';
 import { post } from './lib/utils/api';
 import {
   readFileContent,
@@ -135,22 +135,29 @@ export default function CreateFile() {
       .then((content) => {
         return post('record', {
           content: encrypt(content, password),
-          type: models.RecordTypeEnum.file,
           expireIn: {
             value: expiresInValue,
             unit: expiresInUnit,
           },
         });
       })
-      .then((data: { message?: string } & models.IRecord) => {
+      .then((response: { message?: string } & models.IRecord) => {
         setShowLoadModal(false);
 
-        if (data.message) {
+        if (response.message) {
           setIsSuccessRequest(false);
-          setContentForModal(data.message);
+          setContentForModal(response.message);
         } else {
           setIsSuccessRequest(true);
-          setContentForModal(buildUrlToShare(window.location.origin, data, password, file?.name));
+          setContentForModal(
+            buildUrlToShare({
+              domain: window.location.origin,
+              response,
+              password,
+              type: RecordTypesEnum.file,
+              fileName: file?.name,
+            })
+          );
         }
 
         handleClickOpen();
@@ -181,7 +188,11 @@ export default function CreateFile() {
                   {title}
                 </Typography>
                 <Chip label={getPretteryMinFileSizeMessage()} color="primary" variant="outlined" />
-                <Chip label={getPretteryMaxFileSizeMessage()} color="secondary" variant="outlined" />
+                <Chip
+                  label={getPretteryMaxFileSizeMessage()}
+                  color="secondary"
+                  variant="outlined"
+                />
               </Stack>
               <Divider />
             </Grid>
