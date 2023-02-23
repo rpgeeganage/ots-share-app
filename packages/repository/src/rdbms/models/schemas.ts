@@ -1,7 +1,6 @@
 import { Knex } from 'knex';
 
 import { RECORD_TABLE_NAME } from './common';
-import { addFileSupport } from './migrations/add_file_support';
 
 export async function createSchemas(knex: Knex) {
   await createRecordSchema(knex);
@@ -18,14 +17,9 @@ async function createRecordSchema(knex: Knex) {
       t.text('content');
       t.dateTime('expiary');
       t.string('status', 50);
-      t.string('type', 50);
       t.dateTime('created_at').defaultTo(knex.fn.now());
 
       return t;
     });
   }
-
-  // Run migrations
-  // 1. Add file support
-  await addFileSupport(knex);
 }

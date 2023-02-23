@@ -12,11 +12,6 @@ const recordSchema = new Schema<models.IRecord>(
       enum: Object.values(models.RecordStatusEnum),
       default: models.RecordStatusEnum.avaiable,
     },
-    type: {
-      type: String,
-      enum: Object.values(models.RecordTypeEnum),
-      default: models.RecordTypeEnum.text,
-    },
   },
   { timestamps: { createdAt: 'created_at' } }
 );
