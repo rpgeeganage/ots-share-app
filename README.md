@@ -161,7 +161,7 @@ A sample record body is as follows.
 
 1. Add your secret content to the `Secret content` text box.
 
-![Screenshot (1)](https://user-images.githubusercontent.com/10336353/218278169-776db645-b7a4-4068-bf0a-9c33ee1f3157.png)
+![text-1](https://user-images.githubusercontent.com/10336353/220972813-7507371c-8db1-442f-86e5-31d2b574ff10.png)
 
 2. Click the `Create` Button.
 3. Copy the `URL` in the text box. (Click the `Copy Icon`).
