@@ -1,4 +1,4 @@
-# OTS-Share (One-Time Secret Share)
+# ![favicon-3](https://user-images.githubusercontent.com/10336353/220982413-cfae31b0-cb1e-4dde-a031-42bac3696985.png) OTS-Share (One-Time Secret Share)
 
 A self-hosting app to share secrets only one-time.
 
