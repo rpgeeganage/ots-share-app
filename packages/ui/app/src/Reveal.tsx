@@ -27,7 +27,6 @@ import { models } from '@ots-share/model';
 import { decrypt } from './lib/utils/encryption';
 import { get } from './lib/utils/api';
 import { parseAndExtractUrl, parsedPathType } from './lib/utils/url';
-import { getBlob } from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
@@ -41,7 +40,7 @@ export default function Reveal() {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [viewContentOpen, setViewContentOpen] = useState(false);
   const [showFetchContentButton, setShowFetchContentButton] = useState(true);
-  const [fileData, setFileData] = useState<{ data: Blob; name: string }>();
+  const [fileData, setFileData] = useState<{ data: string; name: string }>();
   const [isFile, setIsFile] = useState(false);
   const [isText, setIsText] = useState(false);
 
@@ -50,14 +49,19 @@ export default function Reveal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveFile = (fileName: string, content: Blob) => {
+  const saveFile = (fileName: string, content: string) => {
     const a = document.createElement('a');
     a.download = fileName;
-    a.href = URL.createObjectURL(content);
-    a.addEventListener('click', () => {
-      setTimeout(() => URL.revokeObjectURL(a.href), 30 * 1000);
-    });
+    a.href = content;
     a.click();
+  };
+
+  const showError = (message: string) => {
+    setShowFetchContentButton(false);
+    setShowLoadModal(false);
+    setOpenErrorModal(true);
+    setContent('');
+    setErrorContent(message);
   };
 
   const handleUrl = (url: string) => {
@@ -65,6 +69,8 @@ export default function Reveal() {
     setIsFile(false);
 
     const parsedResults = parseAndExtractUrl(url);
+    console.log(parsedResults);
+
     if (!parsedResults) {
       setOpenErrorModal(true);
       setErrorContent('Unable to parse the given URL.');
@@ -73,12 +79,7 @@ export default function Reveal() {
     }
   };
 
-  const handleFetchUrl = ({
-    id,
-    password,
-    fileName = 'unknown.txt',
-    mimeType = 'text/plain',
-  }: parsedPathType) => {
+  const handleFetchUrl = ({ id, password, fileName = 'unknown.txt' }: parsedPathType) => {
     setIsText(false);
     setIsFile(false);
     setShowLoadModal(true);
@@ -89,38 +90,28 @@ export default function Reveal() {
         setShowLoadModal(false);
 
         if (data.message) {
-          setOpenErrorModal(true);
-          setContent('');
-          setErrorContent(data.message);
+          showError(data.message);
         } else {
           const decryptedText = decrypt(data.content, password);
 
           if (decryptedText) {
             if (data.type === models.RecordTypeEnum.text) {
-              setShowFetchContentButton(false);
-              setShowLoadModal(false);
-              setContent(decryptedText);
               setIsText(true);
+              setContent(decryptedText);
             } else {
-              const blob = getBlob(decryptedText, mimeType);
               setIsFile(true);
               setFileData({
-                data: blob,
+                data: decryptedText,
                 name: fileName,
               });
             }
           } else {
-            setOpenErrorModal(true);
-            setContent('');
-            setErrorContent('Unable to decrypt the content');
+            showError('Unable to decrypt the content');
           }
         }
       })
       .catch((error: Error) => {
-        setShowFetchContentButton(false);
-        setOpenErrorModal(true);
-        setContent('');
-        setErrorContent(error.message);
+        showError(error.message);
       });
   };
 
@@ -198,7 +189,7 @@ export default function Reveal() {
               {!openErrorModal && !showFetchContentButton && isFile && (
                 <Button
                   variant="contained"
-                  color='success'
+                  color="success"
                   endIcon={<DownloadIcon />}
                   onClick={() => {
                     if (fileData) {

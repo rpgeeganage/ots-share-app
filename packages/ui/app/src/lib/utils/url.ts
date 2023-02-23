@@ -8,25 +8,19 @@ export type parsedPathType = {
   id: string;
   password: string;
   fileName?: string;
-  mimeType?: string;
 };
 
 export function buildUrlToShare(
   domain: string,
   response: models.IRecord,
   encriptionKey: string,
-  fileName?: string,
-  mimeType?: string
+  fileName?: string
 ): string {
   const encoder = new TextEncoder();
   const urlPath = [response.id, encriptionKey];
 
   if (fileName) {
     urlPath.push(fileName);
-  }
-
-  if (mimeType) {
-    urlPath.push(mimeType);
   }
 
   const encodedArray = encoder.encode(urlPath.join(idKeySeparator));
@@ -52,7 +46,7 @@ export function parseAndExtractUrl(url: string): parsedPathType | undefined {
 function base58Decode(stringToDecode: string): parsedPathType | undefined {
   const decoder = new TextDecoder();
   const text = decoder.decode(base58.decode(stringToDecode));
-  const [id, password, fileName, mimeType] = text.split(idKeySeparator, 3);
+  const [id, password, fileName] = text.split(idKeySeparator);
 
   if (!id || !password) {
     return undefined;
@@ -62,12 +56,11 @@ function base58Decode(stringToDecode: string): parsedPathType | undefined {
     id,
     password,
     fileName,
-    mimeType,
   };
 }
 
 function base64Decode(stringToDecode: string): parsedPathType | undefined {
-  const [id, password, fileName, mimeType] = atob(stringToDecode).split(idKeySeparator, 4);
+  const [id, password, fileName] = atob(stringToDecode).split(idKeySeparator);
 
   if (!id || !password) {
     return undefined;
@@ -77,6 +70,5 @@ function base64Decode(stringToDecode: string): parsedPathType | undefined {
     id,
     password,
     fileName,
-    mimeType,
   };
 }

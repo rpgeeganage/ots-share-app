@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import copy from 'copy-to-clipboard';
-import prettyBytes from 'pretty-bytes';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -30,7 +29,12 @@ import { dtos, models } from '@ots-share/model';
 import { encrypt, createRandomPassword } from './lib/utils/encryption';
 import { buildUrlToShare } from './lib/utils/url';
 import { post } from './lib/utils/api';
-import { readFileContent, validateFile, MIN_FILE_SIZE, MAX_FILE_SIZE } from './lib/utils/file';
+import {
+  readFileContent,
+  validateFile,
+  getMaxFileSizeMessage,
+  getMinFileSizeMessage,
+} from './lib/utils/file';
 
 import LoadScreen from './lib/components/LoadScreen';
 import ErrorDialog from './lib/components/ErrorDialog';
@@ -146,9 +150,7 @@ export default function CreateFile() {
           setContentForModal(data.message);
         } else {
           setIsSuccessRequest(true);
-          setContentForModal(
-            buildUrlToShare(window.location.origin, data, password, file?.name, file?.type)
-          );
+          setContentForModal(buildUrlToShare(window.location.origin, data, password, file?.name));
         }
 
         handleClickOpen();
@@ -178,16 +180,8 @@ export default function CreateFile() {
                 <Typography component="h1" variant="h5">
                   {title}
                 </Typography>
-                <Chip
-                  label={`Minimum file size: ${prettyBytes(MIN_FILE_SIZE * 1024)}`}
-                  color="primary"
-                  variant="outlined"
-                />
-                <Chip
-                  label={`Maximum file size: ${prettyBytes(MAX_FILE_SIZE * 1024)}`}
-                  color="secondary"
-                  variant="outlined"
-                />
+                <Chip label={getMinFileSizeMessage()} color="primary" variant="outlined" />
+                <Chip label={getMaxFileSizeMessage()} color="secondary" variant="outlined" />
               </Stack>
               <Divider />
             </Grid>
