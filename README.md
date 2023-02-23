@@ -5,7 +5,7 @@ A self-hosting app to share secrets only one-time.
 ### Content
 
 - [ **Features** ](#features)
-- [ **How to execute** ](#how-to-execute)
+- [ **How to run** ](#how-to-run)
   - [ **With the default database**](#with-the-default-database)
   - [ **Without the default database**](#without-the-default-database)
   - [ **Access UI**](#access-ui)
@@ -41,7 +41,7 @@ A self-hosting app to share secrets only one-time.
   - `Postgres`
   - `MySQL`
 
-## How to execute
+## How to run
 
 ### With the default database
 
@@ -157,7 +157,7 @@ A sample record body is as follows.
 
 # (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
 
-### Create shareable secret
+### For text
 
 1. Add your secret content to the `Secret content` text box.
 
