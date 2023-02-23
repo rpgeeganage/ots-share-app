@@ -3,6 +3,8 @@ import { join } from 'path';
 
 import express, { Application, Request, Response } from 'express';
 
+const uiRoutes = ['/text', '/file', '/r'];
+
 export function addUi(app: Application): Application {
   const uiPath = join(__dirname, '..', 'app');
   const indexFilePath = `${uiPath}/index.html`;
@@ -18,8 +20,10 @@ export function addUi(app: Application): Application {
   // eslint-disable-next-line import/no-named-as-default-member
   app.use(express.static(uiPath));
 
-  app.use('/r', (_: Request, res: Response) => {
-    res.sendFile(indexFilePath);
+  uiRoutes.forEach((uiRoute: string) => {
+    app.use(uiRoute, (_: Request, res: Response) => {
+      res.sendFile(indexFilePath);
+    });
   });
 
   return app;

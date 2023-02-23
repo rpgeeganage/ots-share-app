@@ -17,5 +17,6 @@
       "react-app/jest"
     ]
   },
+  "homepage": "/",
   "proxy": "http://localhost:9898"
 }

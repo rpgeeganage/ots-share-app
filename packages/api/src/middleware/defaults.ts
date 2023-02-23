@@ -1,4 +1,4 @@
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 import { Request, Response, NextFunction } from 'express';
 
 import { NotFoundError } from '../errors/not_found';

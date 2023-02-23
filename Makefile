@@ -16,7 +16,7 @@ build:
 	-docker-compose -f ${DOCKER_COMPOSE} run --rm --name ${BUILD_PROJECT_NAME} --entrypoint "npm run build" ${BUILD_SERVICE_NAME}
 
 upb up-background:
-	docker-compose -p ${RUN_PROJECT_NAME} -f ${DOCKER_COMPOSE} up -d ${BUILD_SERVICE_NAME}
+	docker-compose -p ${RUN_PROJECT_NAME} -f ${DOCKER_COMPOSE} up -d ${RUN_SERVICE_NAME}
 
 upbndb up-background-no-db:
 	docker-compose -p ${RUN_NO_DB_PROJECT_NAME} -f ${DOCKER_COMPOSE} up -d ${RUN_NO_DB_SERVICE_NAME}

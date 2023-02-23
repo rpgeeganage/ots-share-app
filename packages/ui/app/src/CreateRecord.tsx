@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
@@ -17,26 +16,27 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Paper from '@mui/material/Paper';
 import DialogTitle from '@mui/material/DialogTitle';
-import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
-import RefreshRounded from '@mui/icons-material/RefreshRounded';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { dtos, models } from '@ots-share/common';
+import { dtos, models } from '@ots-share/model';
 
-import { encrypt, createRandomPassword } from './lib/encryption';
-import { buildUrlToShare } from './lib/url';
-import { post } from './lib/api';
+import { encrypt, createRandomPassword } from './lib/utils/encryption';
+import { buildUrlToShare, RecordTypesEnum } from './lib/utils/url';
+import { post } from './lib/utils/api';
 
-import LoadScreen from './LoadScreen';
-import ErrorDialog from './ErrorDialog';
+import LoadScreen from './lib/components/LoadScreen';
+import ErrorDialog from './lib/components/ErrorDialog';
+import Password from './lib/components/Password';
+import ExpiresInValue from './lib/components/ExpiresInValue';
+import ExpiresInUnit from './lib/components/ExpiresInUnit';
 
-const title = 'Create One-time secret share';
+const title = 'Create One-time secret share - for a text';
 
-export default function Create() {
+export default function CreateRecord() {
   const [password, setPassword] = useState(createRandomPassword());
   const [openDialogBox, setOpenDialogBox] = useState(false);
   const [isSuccessRequest, setIsSuccessRequest] = useState(true);
@@ -77,23 +77,31 @@ export default function Create() {
         value: expiresInValue,
         unit: expiresInUnit,
       },
-    }).then((data: { message?: string } & models.IRecord) => {
-      setShowLoadModal(false);
-
-      if (data.message) {
-        setIsSuccessRequest(false);
-        setContentForModal(data.message);
-      } else {
-        setIsSuccessRequest(true);
-        setContentForModal(buildUrlToShare(window.location.origin, data, password));
-      }
-
-      handleClickOpen();
     })
-    .catch((error: Error) => {
-      setIsSuccessRequest(false);
-      setContentForModal(error.message);
-    });
+      .then((response: { message?: string } & models.IRecord) => {
+        setShowLoadModal(false);
+
+        if (response.message) {
+          setIsSuccessRequest(false);
+          setContentForModal(response.message);
+        } else {
+          setIsSuccessRequest(true);
+          setContentForModal(
+            buildUrlToShare({
+              domain: window.location.origin,
+              response,
+              password,
+              type: RecordTypesEnum.text,
+            })
+          );
+        }
+
+        handleClickOpen();
+      })
+      .catch((error: Error) => {
+        setIsSuccessRequest(false);
+        setContentForModal(error.message);
+      });
   };
 
   return (
@@ -136,75 +144,16 @@ export default function Create() {
               <Divider />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                id="password"
-                variant="filled"
-                value={password}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton
-                        edge="start"
-                        color="primary"
-                        onClick={() => setPassword(createRandomPassword())}
-                      >
-                        <RefreshRounded />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        color="primary"
-                        onClick={() => copy(password)}
-                      >
-                        <Tooltip id="copyContent" title="Copy password">
-                          <ContentCopyIcon />
-                        </Tooltip>
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              ></TextField>
+              <Password password={password} setPassword={setPassword} />
             </Grid>
             <Grid item xs={12}>
               <Divider />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                type="number"
-                defaultValue="1"
-                name="expiresInValue"
-                label="Expires In"
-                id="expiresInValue"
-              />
+              <ExpiresInValue />
             </Grid>
             <Grid item xs={6}>
-              <Select
-                id="expiresInUnit"
-                defaultValue={dtos.RecordExpirationUnitEnum.hours}
-                name="expiresInUnit"
-              >
-                {
-                  // @ts-ignore
-                  <MenuItem value={dtos.RecordExpirationUnitEnum.minutes}>
-                    {dtos.RecordExpirationUnitEnum.minutes}
-                  </MenuItem>
-                }
-                {
-                  // @ts-ignore
-                  <MenuItem value={dtos.RecordExpirationUnitEnum.hours}>
-                    {dtos.RecordExpirationUnitEnum.hours}
-                  </MenuItem>
-                }
-              </Select>
+              <ExpiresInUnit />
             </Grid>
             <Grid item xs={12}>
               <Divider />
@@ -215,7 +164,12 @@ export default function Create() {
           </Grid>
         </Box>
       </Box>
-      <DialogBox success={isSuccessRequest} open={openDialogBox} handleClose={handleClose} content={contentForModal} />
+      <DialogBox
+        success={isSuccessRequest}
+        open={openDialogBox}
+        handleClose={handleClose}
+        content={contentForModal}
+      />
     </Container>
   );
 }
@@ -273,11 +227,7 @@ function successDialogBox({
               endAdornment: (
                 <InputAdornment position="end">
                   <Tooltip id="copyUrl" title="Copy Url">
-                    <IconButton
-                      edge="end"
-                      color="primary"
-                      onClick={() => copy(content)}
-                    >
+                    <IconButton edge="end" color="primary" onClick={() => copy(content)}>
                       <ContentCopyIcon />
                     </IconButton>
                   </Tooltip>

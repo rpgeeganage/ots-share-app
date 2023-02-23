@@ -1,4 +1,4 @@
-import { dtos } from '@ots-share/common';
+import { dtos } from '@ots-share/model';
 import { Router, Request, Response, NextFunction } from 'express';
 
 import { RecordService, getRecordService } from '../services/record';

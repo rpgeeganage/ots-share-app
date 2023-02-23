@@ -1,4 +1,4 @@
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 
 export interface IRecordRepository {
   findById: (id: string) => Promise<models.IRecord | undefined>;

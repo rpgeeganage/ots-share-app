@@ -22,7 +22,7 @@
     "zod": "3.20.2",
     "short-uuid": "4.2.2",
     "mongoose": "6.9.0",
-    "@ots-share/common": "1.0.0",
+    "@ots-share/model": "1.0.0",
     "@ots-share/repository": "1.0.0",
     "reflect-metadata": "0.1.13",
     "express-winston": "4.2.0",

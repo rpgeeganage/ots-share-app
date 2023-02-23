@@ -1,4 +1,4 @@
-import { dtos } from '@ots-share/common';
+import { dtos } from '@ots-share/model';
 import { IsDefined, IsEnum, IsPositive, Max, Min } from 'class-validator';
 
 export class RecordExpirationSettings implements dtos.IRecordExpirationSettings {

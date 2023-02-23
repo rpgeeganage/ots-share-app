@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { dtos } from '@ots-share/common';
+import { dtos } from '@ots-share/model';
 import { Type } from 'class-transformer';
 import { IsDefined, IsString, ValidateNested } from 'class-validator';
 

@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../common"
+      "path": "../model"
     }
   ],
   "include": ["./src/**/*", "./tests/**/*.ts"]

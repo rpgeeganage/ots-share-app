@@ -20,15 +20,16 @@ import Paper from '@mui/material/Paper';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LockOpenOutlined from '@mui/icons-material/LockOpenOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DownloadIcon from '@mui/icons-material/Download';
 
-import { models } from '@ots-share/common';
+import { models } from '@ots-share/model';
 
-import { decrypt } from './lib/encryption';
-import { get } from './lib/api';
-import { parseAndExtractUrl } from './lib/url';
+import { decrypt } from './lib/utils/encryption';
+import { get } from './lib/utils/api';
+import { parseAndExtractUrl, parsedPathType, RecordTypesEnum } from './lib/utils/url';
 
-import LoadScreen from './LoadScreen';
-import ErrorDialog from './ErrorDialog';
+import LoadScreen from './lib/components/LoadScreen';
+import ErrorDialog from './lib/components/ErrorDialog';
 
 const title = 'View One-time secret';
 
@@ -39,50 +40,81 @@ export default function Reveal() {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [viewContentOpen, setViewContentOpen] = useState(false);
   const [showFetchContentButton, setShowFetchContentButton] = useState(true);
+  const [fileData, setFileData] = useState<{ data: string; name: string }>();
+  const [isFile, setIsFile] = useState(false);
+  const [isText, setIsText] = useState(false);
 
   useEffect(() => {
     document.title = title;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const saveFile = (fileName: string, content: string) => {
+    const a = document.createElement('a');
+    a.download = fileName;
+    a.href = content;
+    a.click();
+  };
+
+  const showError = (message: string) => {
+    setShowFetchContentButton(false);
+    setShowLoadModal(false);
+    setOpenErrorModal(true);
+    setContent('');
+    setErrorContent(message);
+  };
+
   const handleUrl = (url: string) => {
+    setIsText(false);
+    setIsFile(false);
+
     const parsedResults = parseAndExtractUrl(url);
+
     if (!parsedResults) {
-      setOpenErrorModal(true);
-      setErrorContent('Unable to parse the given URL.');
+      showError('Unable to parse the given URL.');
     } else {
       handleFetchUrl(parsedResults);
     }
   };
 
-  const handleFetchUrl = ({ id, password }: { id: string; password: string }) => {
+  const handleFetchUrl = ({
+    id,
+    password,
+    type = RecordTypesEnum.text,
+    fileName = 'unknown.txt',
+  }: parsedPathType) => {
+    setIsText(false);
+    setIsFile(false);
     setShowLoadModal(true);
 
     get(`record/${id}`)
       .then((data: { message?: string } & models.IRecord) => {
         setShowFetchContentButton(false);
         setShowLoadModal(false);
+
         if (data.message) {
-          setOpenErrorModal(true);
-          setContent('');
-          setErrorContent(data.message);
+          showError(data.message);
         } else {
           const decryptedText = decrypt(data.content, password);
 
-          if (!decryptedText) {
-            setOpenErrorModal(true);
-            setContent('');
-            setErrorContent('Unable to decrypt the content');
+          if (decryptedText) {
+            if (type === RecordTypesEnum.file) {
+              setIsFile(true);
+              setFileData({
+                data: decryptedText,
+                name: fileName,
+              });
+            } else {
+              setIsText(true);
+              setContent(decryptedText);
+            }
           } else {
-            setContent(decryptedText);
+            showError('Unable to decrypt the content');
           }
         }
       })
       .catch((error: Error) => {
-        setShowFetchContentButton(false);
-        setOpenErrorModal(true);
-        setContent('');
-        setErrorContent(error.message);
+        showError(error.message);
       });
   };
 
@@ -106,17 +138,15 @@ export default function Reveal() {
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={6} alignItems="flex-end" justifyContent="flex-end" display="flex">
-              <IconButton
-                edge="end"
-                color="primary"
-                onClick={() => copy(content)}
-              >
-                <Tooltip id="copyContent" title="Copy content">
-                  <ContentCopyIcon />
-                </Tooltip>
-              </IconButton>
-            </Grid>
+            {isText && (
+              <Grid item xs={6} alignItems="flex-end" justifyContent="flex-end" display="flex">
+                <IconButton edge="end" color="primary" onClick={() => copy(content)}>
+                  <Tooltip id="copyContent" title="Copy content">
+                    <ContentCopyIcon />
+                  </Tooltip>
+                </IconButton>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Divider />
             </Grid>
@@ -126,7 +156,7 @@ export default function Reveal() {
                   Fetch content
                 </Button>
               )}
-              {!openErrorModal && !showFetchContentButton && (
+              {!openErrorModal && !showFetchContentButton && isText && (
                 <Accordion
                   expanded={viewContentOpen}
                   onClick={() => setViewContentOpen(!viewContentOpen)}
@@ -158,6 +188,20 @@ export default function Reveal() {
                     </Paper>
                   </AccordionDetails>
                 </Accordion>
+              )}
+              {!openErrorModal && !showFetchContentButton && isFile && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  endIcon={<DownloadIcon />}
+                  onClick={() => {
+                    if (fileData) {
+                      saveFile(fileData.name, fileData.data);
+                    }
+                  }}
+                >
+                  Click here to download the file
+                </Button>
               )}
             </Grid>
             <Grid item xs={12}></Grid>

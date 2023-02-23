@@ -18,7 +18,7 @@ services:
       - DEV_PORT=${DEV_PORT:-9898}
       - DB_URL=mongodb://ots-share-mongo-local/ots-share
       - PURGE_TRIGGER_INTERVAL=60000
-    command: tail -f /dev/null
+    command: sleep infinity
     ports:
       - '${SERVER_PORT:-8282}:80'
       - '${DEV_PORT:-9898}:${DEV_PORT:-9898}'
@@ -40,7 +40,7 @@ services:
       - DB_URL=
       - DEV_PORT=${DEV_PORT:-9898}
       - PURGE_TRIGGER_INTERVAL=60000
-    command: tail -f /dev/null
+    command: sleep infinity
     ports:
       - '${SERVER_PORT:-8282}:80'
       - '${DEV_PORT:-9898}:${DEV_PORT:-9898}'

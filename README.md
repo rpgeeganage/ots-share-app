@@ -1,11 +1,11 @@
-# OTS-Share (One-Time Secret Share)
+# ![favicon-3](https://user-images.githubusercontent.com/10336353/220982413-cfae31b0-cb1e-4dde-a031-42bac3696985.png) OTS-Share (One-Time Secret Share)
 
 A self-hosting app to share secrets only one-time.
 
 ### Content
 
 - [ **Features** ](#features)
-- [ **How to execute** ](#how-to-execute)
+- [ **How to run** ](#how-to-run)
   - [ **With the default database**](#with-the-default-database)
   - [ **Without the default database**](#without-the-default-database)
   - [ **Access UI**](#access-ui)
@@ -13,7 +13,8 @@ A self-hosting app to share secrets only one-time.
   - [ **Request** ](#request)
   - [ **Response** ](#response)
 - [ **How to use** ](#how-to-use)
-  - [ **Create shareable secret** ](#create-shareable-secret)
+  - [ **For text** ](#for-text)
+  - [ **For files** ](#for-files)
   - [ **View secret content in the shared link** ](#view-secret-content-in-the-shared-link)
   - [ **Errors** ](#errors)
 - [ **CLI usage**](#cli-usage)
@@ -30,6 +31,7 @@ A self-hosting app to share secrets only one-time.
 
 ## Features
 
+- Support both **texts** and **small files (maximum `1MB`)**.
 - Creates shareable links which valid for a maximum of **24 hours**.
 - The contents are encrypted with `AES` in `CBC` mode, with a `256-bit` key.
   (Using [Crypto-js](https://cryptojs.gitbook.io/docs/#the-cipher-algorithms))
@@ -41,7 +43,7 @@ A self-hosting app to share secrets only one-time.
   - `Postgres`
   - `MySQL`
 
-## How to execute
+## How to run
 
 ### With the default database
 
@@ -157,19 +159,40 @@ A sample record body is as follows.
 
 # (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
 
-### Create shareable secret
+### For text
 
-1. Add your secret content to the `Secret content` text box.
+1. Visit the landing page and select `Text` from top menu.
+2. Add your secret content to the `Secret content` text box.
 
-![Screenshot (1)](https://user-images.githubusercontent.com/10336353/218278169-776db645-b7a4-4068-bf0a-9c33ee1f3157.png)
+![text-1](https://user-images.githubusercontent.com/10336353/220972813-7507371c-8db1-442f-86e5-31d2b574ff10.png)
 
-2. Click the `Create` Button.
-3. Copy the `URL` in the text box. (Click the `Copy Icon`).
+3. Click the `Create` Button.
+4. Copy the `URL` in the text box. (Click the `Copy Icon`).
    ![Screenshot (2)](https://user-images.githubusercontent.com/10336353/218278298-2ded1d50-82e0-4cbf-978f-79f9d637876f.png)
 
 - (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
 
-4. Send the copied URL to the other party via a secure channel.
+5. Send the copied URL to the other party via a secure channel.
+
+### For files
+
+1. Visit the landing page and select `File` from top menu.
+2. Click on the `"Drag 'n' drop"` area or drag and drop a file.
+
+- (Pleas refer to screen regarding the file size limits).
+
+  ![file-1](https://user-images.githubusercontent.com/10336353/220973983-0c6a84d3-2fb6-4289-960d-1eb080c461e5.png)
+
+3. Upload a file.
+   ![file-2](https://user-images.githubusercontent.com/10336353/220975812-ce433113-1faf-4bc0-be60-6e23bc944c11.png)
+
+4. Click the `Create` Button.
+5. Copy the `URL` in the text box. (Click the `Copy Icon`).
+   ![file-3](https://user-images.githubusercontent.com/10336353/220976372-e99047e8-4c94-4735-b006-5fb487fd8c63.png)
+
+- (Please don't lose the generated URL. There is no way to retrieve the content or regenerate the URL !!!)
+
+5. Send the copied URL to the other party via a secure channel.
 
 ### View secret content in the shared link.
 
@@ -177,13 +200,23 @@ A sample record body is as follows.
 2. You will see the following screen.
    ![Screenshot (3)](https://user-images.githubusercontent.com/10336353/218278430-8dfc4b41-1f75-4a67-a3e0-a2966b3d57fa.png)
 3. Click `Fetch Content`.
+
+#### For text
+
 4. You'll see the following screen.
    ![Screenshot (4)](https://user-images.githubusercontent.com/10336353/218278478-15c40978-116b-4f73-868b-8deaf4eb1b86.png)
 
-5. Click the `Click there to view the content`.
+5. Click the `"Click there to view the content"`.
 
 6. You will see the content as follows.
    ![Screenshot (5)](https://user-images.githubusercontent.com/10336353/218278542-0979fda7-afa0-4425-99c2-a283bcc3e3d1.png)
+
+#### For files
+
+4. You'll see the following screen.
+   ![file-4](https://user-images.githubusercontent.com/10336353/220977354-e8a2fbdd-5422-4c85-9962-e50d54f27615.png)
+
+5. Click the `"Click here to download the file"` button to download the file.
 
 ### Errors.
 
@@ -191,7 +224,8 @@ In case of an error, the following screen will appear.![Screenshot (6)](https://
 
 ## CLI usage
 
-You can use the `CLI` to utilize `APIs`.
+- Support only for `texts`.
+- You can use the `CLI` to utilize `APIs`.
 
 - Encryption using CLI
 <details>
@@ -380,15 +414,17 @@ The URL format, which required sending to the other party, is as follows. The `i
 
 The format is as follows.
 
-- `<hosted-domain>/r/Base58Encoded(id-from-api : password)`
-
-- It supports `Base 64` encoding now.
+- `<hosted-domain>/r/Base58Encoded(id-from-api : password : type : file-name)`
+- Possible values for `type` is `'text'` or `'file'`.
+- `type` and `file-name` is optional.
+- `type` is default to `text` if not mentioned.
+- `file-name` is available for file.
+- It supports `Base 64` encoding.
 
 ## Road map
 
 - A Chrome extension
 - A Slack app
-- Support files
 
 ## Todo
 
