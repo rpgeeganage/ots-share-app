@@ -1,4 +1,5 @@
 DOCKER_COMPOSE		:= ./docker-compose.yml
+DOCKER_COMPOSE_E2E		:= ./docker-compose.e2e.yml
 
 RUN_PROJECT_NAME		:= ots-share-run
 RUN_SERVICE_NAME		:= ots-share-run
@@ -8,6 +9,12 @@ BUILD_SERVICE_NAME		:= ots-share-build
 
 RUN_NO_DB_PROJECT_NAME		:= ots-share-run-no-db
 RUN_NO_DB_SERVICE_NAME		:= ots-share-run-no-db
+
+RUN_E2E_PROJECT_NAME		:= e2e
+RUN_E2E_SERVICE_NAME		:= e2e
+
+DEV_E2E_PROJECT_NAME		:= e2e-dev
+DEV_E2E_SERVICE_NAME		:= e2e-dev
 
 install: 
 	docker-compose -f ${DOCKER_COMPOSE} run --rm --name ${BUILD_PROJECT_NAME} --entrypoint "npm install" ${BUILD_SERVICE_NAME}
@@ -47,6 +54,12 @@ execute exec:
 execute-no-db execndb:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_NO_DB_PROJECT_NAME}-app --entrypoint "npm run start" ${RUN_NO_DB_PROJECT_NAME}
 
+e2e-run:
+	docker-compose -f ${DOCKER_COMPOSE_E2E} run --service-ports --rm --name ${RUN_E2E_PROJECT_NAME}-app ${RUN_E2E_SERVICE_NAME}
+
+e2e-dev:
+	docker-compose -f ${DOCKER_COMPOSE_E2E} run --service-ports --rm --name ${DEV_E2E_PROJECT_NAME}-app ${DEV_E2E_SERVICE_NAME}
+
 remove-node-modules rmn:
 	@rm -rf ./node_modules
 	@rm -rf packages/*/node_modules
@@ -58,6 +71,8 @@ remove-builds rmb:
 
 start: rmn rmb install build execute
 start-no-db: rmn rmb install build execute-no-db
+e2e: e2e-run
+e2e-dev: e2e-dev
 
 clean:
 	docker rm $$(docker ps -q -f status=exited)

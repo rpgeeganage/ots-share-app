@@ -152,7 +152,12 @@ export default function Reveal() {
             </Grid>
             <Grid item xs={12}>
               {showFetchContentButton && (
-                <Button variant="contained" onClick={() => handleUrl(window.location.href)}>
+                <Button
+                  variant="contained"
+                  onClick={() => handleUrl(window.location.href)}
+                  name="fetchContentButton"
+                  id="fetchContentButton"
+                >
                   Fetch content
                 </Button>
               )}
