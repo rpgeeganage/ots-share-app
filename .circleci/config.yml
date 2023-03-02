@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Run Tests
+          command: |
+            docker-compose -p e2eproject -f ./docker-compose.e2e.yml up e2e
+            code=$(docker inspect $(docker ps -aqf "name=ots-share-e2e-pw-run") --format='{{.State.ExitCode}}')
+            docker-compose -p e2eproject down
+            exit $code
+

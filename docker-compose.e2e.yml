@@ -21,6 +21,7 @@ services:
       - ots-share-mongo-local-e2e
     links:
       - ots-share-mongo-local-e2e
+    restart: on-failure:5
 
   ots-share-mongo-local-e2e:
     image: mongo:4.2
@@ -33,6 +34,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.e2e
+    container_name: ots-share-e2e-pw-run
     working_dir: /opt
     environment:
       - OTS_SHARE_URL=http://ots-share-e2e
@@ -41,12 +43,13 @@ services:
     command:
       - sh
       - -c
-      - "cd e2e && npm t"
+      - "cd e2e && npm install && npx playwright install-deps && npx playwright install firefox && npm t"
     links:
       - ots-share-e2e
 
   e2e-dev:
     image: ots-share-e2e-pw
+    container_name: ots-share-e2e-pw-dev
     build:
       context: .
       dockerfile: Dockerfile.e2e
