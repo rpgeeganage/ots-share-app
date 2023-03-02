@@ -127,7 +127,7 @@ export default function CreateFile() {
 
     const data = new FormData(event.currentTarget);
 
-    const password = data.get('password') as string;
+    const password = data.get('passwordForText') as string;
     const expiresInValue = parseInt(data.get('expiresInValue') as string, 10);
     const expiresInUnit = data.get('expiresInUnit') as dtos.RecordExpirationUnitEnum;
 
@@ -232,7 +232,7 @@ export default function CreateFile() {
               <Divider />
             </Grid>
             <Grid item xs={12}>
-              <Password password={password} setPassword={setPassword} />
+              <Password password={password} setPassword={setPassword} nameAndId="passwordForFile"/>
             </Grid>
             <Grid item xs={12}>
               <Divider />

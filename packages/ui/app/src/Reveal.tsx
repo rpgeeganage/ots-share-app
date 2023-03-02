@@ -169,7 +169,7 @@ export default function Reveal() {
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"
-                    id="panel1bh-header"
+                    id="hiddenContent"
                   >
                     <Typography>Click here to view the content</Typography>
                   </AccordionSummary>
@@ -199,6 +199,8 @@ export default function Reveal() {
                   variant="contained"
                   color="success"
                   endIcon={<DownloadIcon />}
+                  name="downloadFile"
+                  id="downloadFile"
                   onClick={() => {
                     if (fileData) {
                       saveFile(fileData.name, fileData.data);

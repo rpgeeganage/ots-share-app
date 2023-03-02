@@ -66,7 +66,7 @@ export default function CreateRecord() {
     const data = new FormData(event.currentTarget);
 
     const content = data.get('content') as string;
-    const password = data.get('password') as string;
+    const password = data.get('passwordForText') as string;
     const expiresInValue = parseInt(data.get('expiresInValue') as string, 10);
     const expiresInUnit = data.get('expiresInUnit') as dtos.RecordExpirationUnitEnum;
     const cipherText = encrypt(content, password);
@@ -144,7 +144,7 @@ export default function CreateRecord() {
               <Divider />
             </Grid>
             <Grid item xs={12}>
-              <Password password={password} setPassword={setPassword} />
+              <Password password={password} setPassword={setPassword} nameAndId="passwordForText"/>
             </Grid>
             <Grid item xs={12}>
               <Divider />
@@ -157,7 +157,7 @@ export default function CreateRecord() {
             </Grid>
             <Grid item xs={12}>
               <Divider />
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} name="submitTextContent" id="submitTextContent">
                 Create
               </Button>
             </Grid>

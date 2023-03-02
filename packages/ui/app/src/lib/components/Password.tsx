@@ -11,18 +11,20 @@ import { createRandomPassword } from '../utils/encryption';
 
 export default function Password({
   password,
-  setPassword
+  setPassword,
+  nameAndId
 }: {
   password: string,
+  nameAndId: string,
   setPassword: React.Dispatch<React.SetStateAction<string>>
 }) {
   return (
     <TextField
       required
       fullWidth
-      name="password"
+      name={nameAndId}
       label="Password"
-      id="password"
+      id={nameAndId}
       variant="filled"
       value={password}
       InputProps={{
