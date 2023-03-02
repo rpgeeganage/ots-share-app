@@ -19,7 +19,7 @@ describe('Example.com', () => {
       const page = await browser.newPage();
       await page.goto(`${OTS_SHARE_URL}/text`);
       const title = await page.title();
-      await expect(title).toEqual('Create One-time secret share - for a text');
+      await expect(title).toEqual('1Create One-time secret share - for a text');
     });
 
     it('Create text', async () => {
