@@ -1,10 +1,13 @@
 import * as fs from 'node:fs';
+import * as os from 'node:os';
+import * as path from 'node:path';
 
 import { type Browser, firefox } from 'playwright';
 
 import { OTS_SHARE_URL } from './configs';
 
-const filePath = './sample_artifacts/favicon.ico';
+const artifactFile = './sample_artifacts/favicon.ico';
+const artifactDownloadedPath = path.join(os.tmpdir(), Date.now().toString());
 
 jest.setTimeout(40 * 1000);
 
@@ -31,7 +34,7 @@ describe('Example.com', () => {
       const page = await browser.newPage();
       await page.goto(`${OTS_SHARE_URL}/file`);
 
-      await page.setInputFiles('input[type="file"]', filePath);
+      await page.setInputFiles('input[type="file"]', artifactFile);
       await page.click('#submitFileContent');
       const text = await page.locator('#createdUrl').inputValue();
 
@@ -42,7 +45,7 @@ describe('Example.com', () => {
       const page = await browser.newPage();
       await page.goto(`${OTS_SHARE_URL}/file`);
 
-      await page.setInputFiles('input[type="file"]', filePath);
+      await page.setInputFiles('input[type="file"]', artifactFile);
       await page.click('#submitFileContent');
       const text = await page.locator('#createdUrl').inputValue();
 
@@ -53,9 +56,8 @@ describe('Example.com', () => {
       const downloadPromise = pageReveal.waitForEvent('download');
       await pageReveal.click('#downloadFile');
       const download = await downloadPromise;
-      const savedPath = `/tmp/${Date.now()}`;
-      await download.saveAs(savedPath);
-      expect(fs.readFileSync(filePath)).toEqual(fs.readFileSync(savedPath));
+      await download.saveAs(artifactDownloadedPath);
+      expect(fs.readFileSync(artifactFile)).toEqual(fs.readFileSync(artifactDownloadedPath));
     });
   });
 });
