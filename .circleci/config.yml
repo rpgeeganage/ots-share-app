@@ -7,14 +7,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '3.5'
+          name: Does docker even exist
+          command: docker -v
+      - run:
+          name: Install docker-compose
           command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-            ~/docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - run:
+          name: Start containers
+          command: docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
 
 workflows:
   validate-workflow:
