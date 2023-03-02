@@ -9,14 +9,15 @@ jobs:
       - run:
           name: Does docker even exist
           command: docker -v
-      # - run:
-      #     name: Install docker-compose
-      #     environment:
-      #       COMPOSE_VERSION: '2.16.0'
-      #     command: |
-      #       curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-      #       chmod +x ~/docker-compose
-      #       sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Install docker-compose
+          environment:
+            COMPOSE_VERSION: '2.16.0'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - setup_remote_docker
       - run:
           name: Start containers
           command: docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
