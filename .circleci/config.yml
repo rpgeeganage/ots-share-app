@@ -4,4 +4,4 @@ version: 2.1
       - run:
         name: Run test
         command: |
-          docker-compose -p ${RUN_E2E_PROJECT_NAME} -f ./docker-compose.e2e.yml up e2e
+          docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
