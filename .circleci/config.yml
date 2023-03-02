@@ -7,6 +7,4 @@ jobs:
       - checkout
       - run:
           name: Run Tests
-          command: |
-            docker ps -a
-            docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
+          command: docker-compose -p e2e -f ./docker-compose.e2e.yml up e2e
