@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "E2E tests",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint --ext ts ./",
+    "fix:lint": "npm run lint -- --fix",
+    "lint-stage-ts": "eslint --cache --fix",
+    "lint-stage-others": "prettier --write"
   },
   "dependencies": {
     "node-fetch": "2",
