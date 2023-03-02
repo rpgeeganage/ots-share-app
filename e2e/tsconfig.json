@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "composite": true,
+    "types": [
+      "@types/jest",
+      "jest-playwright-preset",
+      "expect-playwright",
+    ]
+  },
+  "include": ["./src/**/*", "./tests/**/*.ts"]
+}

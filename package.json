@@ -8,7 +8,7 @@
   "scripts": {
     "test": "npm t --ws",
     "build": "npm run build --ws",
-    "lint": "npm run lint --ws",
+    "lint": "npm run lint --ws && (cd e2e && npm run lint && cd -)",
     "prepare": "husky install",
     "prestart": "npm run build",
     "start": "npm run exec",
@@ -44,6 +44,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-unicorn": "45.0.2",
     "eslint-plugin-unused-imports": "2.0.0",
+    "jest-playwright-preset": "3.0.1",
     "jest": "29.3.1",
     "prettier": "2.8.3",
     "supertest": "6.3.3",

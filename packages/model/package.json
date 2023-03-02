@@ -6,7 +6,7 @@
   "types": "build/src/index.d.ts",
   "scripts": {
     "build": "rm -rf build && tsc",
-    "test": "exit 0",
+    "test": "echo \"covered via e2e :)\"; exit 0",
     "lint": "eslint --ext ts ./",
     "fix:lint": "npm run lint -- --fix",
     "lint-stage-ts": "eslint --cache --fix",

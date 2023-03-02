@@ -1,0 +1,65 @@
+version: '3.5'
+services:
+  ots-share-e2e:
+    image: ots-share-e2e
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    container_name: ots-share-e2e
+    environment:
+      - DB_URL=mongodb://ots-share-mongo-local-e2e/ots-share
+      - PURGE_TRIGGER_INTERVAL=1000
+    command:
+      - sh
+      - -c
+      - "npm start"
+    expose:
+      - 80
+    logging:
+      driver: json-file
+    depends_on:
+      - ots-share-mongo-local-e2e
+    links:
+      - ots-share-mongo-local-e2e
+
+  ots-share-mongo-local-e2e:
+    image: mongo:4.2
+    container_name: ots-share-mongo-local-e2e
+    expose:
+      - 27017
+
+  e2e:
+    image: ots-share-e2e-pw
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    working_dir: /opt
+    environment:
+      - OTS_SHARE_URL=http://ots-share-e2e
+    depends_on:
+      - ots-share-e2e
+    command:
+      - sh
+      - -c
+      - "cd e2e && npm t"
+    links:
+      - ots-share-e2e
+
+  e2e-dev:
+    image: ots-share-e2e-pw
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    working_dir: /opt
+    volumes:
+      - .:/opt
+    environment:
+      - OTS_SHARE_URL=http://ots-share-e2e
+    depends_on:
+      - ots-share-e2e
+    command:
+      - sh
+      - -c
+      - "cd e2e && npm install && /bin/bash"
+    links:
+      - ots-share-e2e
