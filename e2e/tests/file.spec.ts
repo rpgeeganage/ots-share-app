@@ -4,7 +4,7 @@ import * as path from 'node:path';
 
 import { type Browser, firefox } from 'playwright';
 
-import { OTS_SHARE_URL } from './configs';
+import { OTS_SHARE_URL, checkUp } from './configs';
 
 const artifactFile = './sample_artifacts/favicon.ico';
 const artifactDownloadedPath = path.join(os.tmpdir(), Date.now().toString());
@@ -15,6 +15,7 @@ describe('Example.com', () => {
   let browser: Browser;
 
   beforeAll(async () => {
+    await checkUp();
     browser = await firefox.launch({ headless: true });
   });
 

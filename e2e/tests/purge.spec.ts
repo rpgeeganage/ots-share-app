@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 
-import { OTS_SHARE_URL } from './configs';
+import { OTS_SHARE_URL, checkUp } from './configs';
 
-const apiPath = `${OTS_SHARE_URL}/api/`;
+const apiPath = `${OTS_SHARE_URL}/api`;
 
 async function apiPost(data: unknown): Promise<string> {
   const response = await fetch(`${apiPath}/record`, {
@@ -31,6 +31,10 @@ async function apiGetStatus(id: string): Promise<number> {
 }
 
 describe('Purge', () => {
+  beforeAll(async () => {
+    await checkUp();
+  });
+
   it('should delete record once it has been accessed', async () => {
     const id = await apiPost({
       content: 'test',

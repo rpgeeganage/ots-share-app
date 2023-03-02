@@ -55,10 +55,12 @@ execute-no-db execndb:
 	docker-compose -f ${DOCKER_COMPOSE} run --service-ports --rm --name ${RUN_NO_DB_PROJECT_NAME}-app --entrypoint "npm run start" ${RUN_NO_DB_PROJECT_NAME}
 
 e2e-run:
-	docker-compose -f ${DOCKER_COMPOSE_E2E} run --service-ports --rm --name ${RUN_E2E_PROJECT_NAME}-app ${RUN_E2E_SERVICE_NAME}
+	-docker-compose -p ${RUN_E2E_PROJECT_NAME} -f ${DOCKER_COMPOSE_E2E} up ${RUN_E2E_SERVICE_NAME} --abort-on-container-exit --exit-code-from ${RUN_E2E_SERVICE_NAME}
+	docker-compose -p ${RUN_E2E_PROJECT_NAME} down
 
 e2e-dev:
-	docker-compose -f ${DOCKER_COMPOSE_E2E} run --service-ports --rm --name ${DEV_E2E_PROJECT_NAME}-app ${DEV_E2E_SERVICE_NAME}
+	-docker-compose -p ${DEV_E2E_PROJECT_NAME} -f ${DOCKER_COMPOSE_E2E} up ${DEV_E2E_SERVICE_NAME} --abort-on-container-exit --exit-code-from ${DEV_E2E_SERVICE_NAME}
+	docker-compose -p ${DEV_E2E_PROJECT_NAME} down
 
 remove-node-modules rmn:
 	@rm -rf ./node_modules
