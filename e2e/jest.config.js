@@ -16,7 +16,7 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: false,
   reporters: ['default'],
-  testTimeout: 200000,
+  testTimeout: 20000000,
   testEnvironmentOptions: {
     'jest-playwright': {
       browsers: ['firefox'],

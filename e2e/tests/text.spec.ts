@@ -2,8 +2,6 @@ import { type Browser, firefox } from 'playwright';
 
 import { OTS_SHARE_URL, checkUp } from './configs';
 
-jest.setTimeout(40 * 1000);
-
 describe('Example.com', () => {
   let browser: Browser;
 

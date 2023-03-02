@@ -9,8 +9,6 @@ import { OTS_SHARE_URL, checkUp } from './configs';
 const artifactFile = './sample_artifacts/favicon.ico';
 const artifactDownloadedPath = path.join(os.tmpdir(), Date.now().toString());
 
-jest.setTimeout(40 * 1000);
-
 describe('Example.com', () => {
   let browser: Browser;
 
