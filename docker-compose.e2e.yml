@@ -13,19 +13,24 @@ services:
       - sh
       - -c
       - "npm start"
+    expose:
+      - 80
     logging:
       driver: json-file
     depends_on:
       - ots-share-mongo-local-e2e
     links:
       - ots-share-mongo-local-e2e
+    restart: on-failure:5
 
   ots-share-mongo-local-e2e:
     image: mongo:4.2
     container_name: ots-share-mongo-local-e2e
+    expose:
+      - 27017
 
   e2e:
-    image: e2e-ots-share
+    image: ots-share-e2e-pw
     build:
       context: .
       dockerfile: Dockerfile.e2e
@@ -42,7 +47,7 @@ services:
       - ots-share-e2e
 
   e2e-dev:
-    image: e2e-ots-share-dev
+    image: ots-share-e2e-pw
     build:
       context: .
       dockerfile: Dockerfile.e2e
