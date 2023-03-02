@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   validate:
     docker:
-      - image: circleci/node:18.14.2
+      - image: circleci/node:current-buster-browsers-legacy
     steps:
       - checkout
       - run:
