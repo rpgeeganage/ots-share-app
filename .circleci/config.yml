@@ -2,13 +2,12 @@ version: 2.1
 
 jobs:
   validate:
- 
     steps:
       - checkout
       - run:
           name: Install Docker Compose
           environment:
-            COMPOSE_VERSION: '1.29.2'
+            COMPOSE_VERSION: '3.5'
           command: |
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
