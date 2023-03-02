@@ -127,7 +127,7 @@ export default function CreateFile() {
 
     const data = new FormData(event.currentTarget);
 
-    const password = data.get('passwordForText') as string;
+    const password = data.get('passwordForFile') as string;
     const expiresInValue = parseInt(data.get('expiresInValue') as string, 10);
     const expiresInUnit = data.get('expiresInUnit') as dtos.RecordExpirationUnitEnum;
 
@@ -245,7 +245,7 @@ export default function CreateFile() {
             </Grid>
             <Grid item xs={12}>
               <Divider />
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} name="submitFileContent" id="submitFileContent">
                 Create
               </Button>
             </Grid>
