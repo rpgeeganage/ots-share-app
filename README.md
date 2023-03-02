@@ -429,6 +429,5 @@ The format is as follows.
 ## Todo
 
 - Add `Contribution` instructions.
-- Add tests.
 - Learn more ReactJs. :smile:
 - Fix any bugs. :smile:
