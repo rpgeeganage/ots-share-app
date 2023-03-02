@@ -1,11 +1,9 @@
 version: 2.1
 
 jobs:
-  checkout-project:
-    steps:
-      - checkout
   validate:
     steps:
+      - checkout
       - run:
         name: Run test
         command: |
@@ -14,5 +12,4 @@ jobs:
 workflows:
   validate-workflow:
     jobs:
-      - checkout-project
       - validate
