@@ -2,10 +2,17 @@ version: 2.1
 
 jobs:
   validate:
-    docker:
-      - image: cimg/base:stable
+ 
     steps:
       - checkout
+      - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Run test
           command: |
