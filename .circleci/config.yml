@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   validate:
     docker:
-      - image: moregreenhouse/tm-base
+      - image: circleci/node:18.14.2
     steps:
       - checkout
       - run:
