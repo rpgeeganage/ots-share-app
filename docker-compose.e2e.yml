@@ -41,7 +41,7 @@ services:
     command:
       - sh
       - -c
-      - "cd e2e && npx playwright install-deps && npx playwright install firefox && npm t"
+      - "cd e2e && npm install && npx playwright install-deps && npx playwright install firefox && npm t"
     links:
       - ots-share-e2e
 
