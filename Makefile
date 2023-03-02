@@ -59,8 +59,7 @@ e2e-run:
 	docker-compose -p ${RUN_E2E_PROJECT_NAME} down
 
 e2e-dev:
-	-docker-compose -p ${DEV_E2E_PROJECT_NAME} -f ${DOCKER_COMPOSE_E2E} up ${DEV_E2E_SERVICE_NAME} --abort-on-container-exit --exit-code-from ${DEV_E2E_SERVICE_NAME}
-	docker-compose -p ${DEV_E2E_PROJECT_NAME} down
+	docker-compose -f ${DOCKER_COMPOSE_E2E} run --service-ports --rm --name ${DEV_E2E_PROJECT_NAME} ${DEV_E2E_SERVICE_NAME}
 
 remove-node-modules rmn:
 	@rm -rf ./node_modules
