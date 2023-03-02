@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   validate:
     docker:
-      - image: cimg/base:stable
+      - image: moregreenhouse/tm-base
     steps:
       - checkout
       - run:
