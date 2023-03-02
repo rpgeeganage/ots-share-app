@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.e2e
-    container_name: e2e
+    container_name: ots-share-e2e-pw-run
     working_dir: /opt
     environment:
       - OTS_SHARE_URL=http://ots-share-e2e
@@ -49,7 +49,7 @@ services:
 
   e2e-dev:
     image: ots-share-e2e-pw
-    container_name: e2e-dev
+    container_name: ots-share-e2e-pw-dev
     build:
       context: .
       dockerfile: Dockerfile.e2e
