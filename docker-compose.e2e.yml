@@ -8,7 +8,7 @@ services:
     container_name: ots-share-e2e
     environment:
       - DB_URL=mongodb://ots-share-mongo-local-e2e/ots-share
-      - PURGE_TRIGGER_INTERVAL=60000
+      - PURGE_TRIGGER_INTERVAL=1000
     command:
       - sh
       - -c
