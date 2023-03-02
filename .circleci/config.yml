@@ -9,8 +9,7 @@ jobs:
           name: Run Tests
           command: |
             docker-compose -p e2eproject -f ./docker-compose.e2e.yml up e2e
-            docker ps -aqf "name=e2e"
-            code=$(docker ps -aqf "name=e2e")
+            code=docker inspect $(docker ps -aqf "name=ots-share-e2e-test") --format='{{.State.ExitCode}}'
             docker-compose -p e2eproject down
             echo $code
 
