@@ -1,7 +1,7 @@
 import prettyBytes from 'pretty-bytes';
 
 export const MIN_FILE_SIZE = 1;
-export const MAX_FILE_SIZE = 1024;
+export const MAX_FILE_SIZE = 1024 * 10;
 
 const FILE_NOT_SELECTEED_ERROR = 'No file has selected to upload';
 const FILE_IS_TOO_SMALL = 'File size is less than minimum limit';
